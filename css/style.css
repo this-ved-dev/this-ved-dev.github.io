@@ -2261,3 +2261,59 @@ contact
 .mil-contact-card a:hover {
   color: #fa4729;
 }
+
+/* Typing effect styles */
+#typing-effect {
+  /* Prevent layout shift by setting a fixed height and using flexbox for alignment */
+  height: 75px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+#typing-effect .v-char {
+  display: inline-block;
+  transition: transform 0.3s ease-in-out;
+}
+
+#typing-effect .v-char.rotated {
+  transform: rotate(-90deg);
+}
+
+#typing-effect .cursor {
+  display: inline-block;
+  width: 0.4em;
+  height: 6px;
+  background-color: #101010;
+  margin-left: 2px;
+  vertical-align: bottom;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  from, to { opacity: 1 }
+  50% { opacity: 0 }
+}
+
+@media screen and (max-width: 768px) {
+  .mil-p-120-120 {
+    padding: 60px 0;
+  }
+  .mil-op-space-90 {
+    padding-top: 60px;
+    padding-bottom: 30px;
+  }
+  .mil-mb-90 {
+    margin-bottom: 60px;
+  }
+}
+/* Fix navigation in blogs section - remove borders and align with image */
+.mil-section[data-name="Blogs"] .mil-reviews-nav {
+  border: none;
+  padding: 0;
+  margin-left: 0;
+}
+
+.mil-section[data-name="Blogs"] .mil-reviews-nav::after {
+  display: none;
+}

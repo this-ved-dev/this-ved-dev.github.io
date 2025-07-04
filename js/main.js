@@ -220,3 +220,60 @@ $(function () {
 	}
 
 });
+
+const typingContainer = document.getElementById('typing-effect');
+
+if (typingContainer) {
+    const vChar = typingContainer.querySelector('.v-char');
+    const nameText = typingContainer.querySelector('.name-text');
+    const fullText = "edant Misra";
+    const typeSpeed = 120;
+    const deleteSpeed = 70;
+    const pause = 2000;
+
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    const setContent = (text, withCursor = true) => {
+        if (withCursor) {
+            nameText.innerHTML = `${text}<span class="cursor"></span>`;
+        } else {
+            nameText.innerHTML = text;
+        }
+    };
+
+    const runAnimation = async () => {
+        while (true) {
+            // Start with full name
+            vChar.classList.remove('rotated');
+            setContent(fullText, false);
+            await sleep(pause);
+
+            // Rotate V
+            vChar.classList.add('rotated');
+            await sleep(300); // Wait for rotation to finish
+
+            // Erase
+            for (let i = fullText.length; i > 0; i--) {
+                setContent(fullText.substring(0, i - 1));
+                await sleep(deleteSpeed);
+            }
+            
+            // Pause with empty text
+            setContent('');
+            await sleep(500);
+            
+            // Type
+            for (let i = 0; i < fullText.length; i++) {
+                setContent(fullText.substring(0, i + 1));
+                await sleep(typeSpeed);
+            }
+
+            // Rotate V back
+            vChar.classList.remove('rotated');
+            setContent(fullText, false); // Hide cursor
+            await sleep(pause);
+        }
+    };
+    
+    runAnimation();
+}
