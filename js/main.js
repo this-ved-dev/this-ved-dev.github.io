@@ -474,4 +474,139 @@ if (typingContainer) {
         initPortfolioSlider();
     }
 
-} )();
+  } )();
+
+/* Education Modal System */
+let currentEducationId = 'penn-state';
+let scrollPosition = 0;
+
+// Array of education IDs in order for navigation
+const educationOrder = ['penn-state', 'nmims', 'rajhans', 'gokuldhaam'];
+
+function openEducationModal(educationId, event) {
+    // Prevent event bubbling to avoid slider navigation
+    if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+    
+    currentEducationId = educationId;
+    const modal = document.getElementById('educationModal');
+    const modalBody = document.getElementById('educationModalBody');
+    
+    // Get the content template and clone it
+    const template = document.getElementById(`modal-content-${educationId}`);
+    if (template) {
+        modalBody.innerHTML = template.innerHTML;
+    } else {
+        console.error(`No template found for education ID: ${educationId}`);
+        return;
+    }
+    
+    modal.classList.add('active');
+    
+    // Lock background scrolling
+    lockScroll();
+    
+    // Update navigation buttons
+    updateModalNavigation();
+}
+
+function closeEducationModal() {
+    const modal = document.getElementById('educationModal');
+    modal.classList.remove('active');
+    
+    // Unlock background scrolling
+    unlockScroll();
+}
+
+function navigateEducationModal(direction) {
+    const currentIndex = educationOrder.indexOf(currentEducationId);
+    const newIndex = currentIndex + direction;
+    
+    if (newIndex >= 0 && newIndex < educationOrder.length) {
+        const newEducationId = educationOrder[newIndex];
+        currentEducationId = newEducationId;
+        
+        const modalBody = document.getElementById('educationModalBody');
+        const template = document.getElementById(`modal-content-${newEducationId}`);
+        
+        if (template) {
+            modalBody.innerHTML = template.innerHTML;
+        } else {
+            console.error(`No template found for education ID: ${newEducationId}`);
+            return;
+        }
+        
+        updateModalNavigation();
+    }
+}
+
+function updateModalNavigation() {
+    const prevBtn = document.querySelector('.mil-modal-prev');
+    const nextBtn = document.querySelector('.mil-modal-next');
+    
+    if (prevBtn && nextBtn) {
+        const currentIndex = educationOrder.indexOf(currentEducationId);
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === educationOrder.length - 1;
+    }
+}
+
+function lockScroll() {
+    // Save current scroll position
+    scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    
+    // Add lock class to body
+    document.body.classList.add('modal-scroll-locked');
+    document.body.style.top = `-${scrollPosition}px`;
+}
+
+function unlockScroll() {
+    // Remove lock class from body
+    document.body.classList.remove('modal-scroll-locked');
+    document.body.style.top = '';
+    
+    // Restore scroll position
+    window.scrollTo(0, scrollPosition);
+}
+
+
+
+
+
+// Close modal with ESC key and keyboard navigation
+document.addEventListener('keydown', function(e) {
+    const modal = document.getElementById('educationModal');
+    const isModalOpen = modal && modal.classList.contains('active');
+    
+    if (isModalOpen) {
+        if (e.key === 'Escape') {
+            closeEducationModal();
+        } else if (e.key === 'ArrowLeft') {
+            navigateEducationModal(-1);
+        } else if (e.key === 'ArrowRight') {
+            navigateEducationModal(1);
+        }
+    }
+});
+
+// Event listeners for Learn More buttons using data attributes
+document.addEventListener('DOMContentLoaded', function() {
+    // Add click event listeners to all Learn More buttons
+    const learnMoreButtons = document.querySelectorAll('.mil-learn-more-btn[data-education-target]');
+    learnMoreButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const educationId = this.getAttribute('data-education-target');
+            openEducationModal(educationId, e);
+        });
+    });
+    
+    // Prevent modal close when clicking inside modal content
+    const modalContent = document.querySelector('.mil-modal-content');
+    if (modalContent) {
+        modalContent.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+});

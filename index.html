@@ -274,46 +274,62 @@
 
                         <div class="swiper-container mil-timeline-slider">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
+                                <div class="swiper-slide" data-education-id="penn-state">
 
                                     <div class="mil-icon-box mil-type-2 mil-mb-30">
                                         <div class="mil-box-text">
-                                            <p class="mil-upper mil-text-lg mil-mb-15">The Pennsylvania State University</p>
-                                            <p class="mil-upper mil-mb-30">2024 <span class="mil-accent">to</span> 2026</p>
-                                            <p>Pursuing a Bachelor of Science in Computer Science. Relevant Coursework: Data Structures, Algorithms, Operating Systems, Web Development.</p>
+                                             <p class="mil-upper mil-text-lg mil-mb-15">The Pennsylvania State University</p>
+                                             <p class="mil-upper mil-mb-30">2024 <span class="mil-accent">to</span> 2026</p>
+                                             <p>Pursuing a Master of Science in Computer Science with focus on advanced software engineering and data science.</p>
+                                             <button class="mil-learn-more-btn" data-education-target="penn-state">
+                                                 <span>Learn More</span>
+                                                 <i class="fas fa-arrow-right"></i>
+                                             </button>
                                         </div>
                                     </div>
 
                                 </div>
-                                <div class="swiper-slide">
+                                <div class="swiper-slide" data-education-id="nmims">
 
                                     <div class="mil-icon-box mil-type-2 mil-mb-30">
                                         <div class="mil-box-text">
-                                            <p class="mil-upper mil-text-lg mil-mb-15">NMIMS University</p>
-                                            <p class="mil-upper mil-mb-30">2019 <span class="mil-accent">to</span> 2023</p>
-                                            <p>Completed a Bachelor of Technology in Computer Engineering. Gained a strong foundation in computer science fundamentals and software development.</p>
+                                             <p class="mil-upper mil-text-lg mil-mb-15">NMIMS University</p>
+                                             <p class="mil-upper mil-mb-30">2019 <span class="mil-accent">to</span> 2023</p>
+                                             <p>Completed a Bachelor of Technology in Computer Engineering. Gained a strong foundation in computer science fundamentals and software development.</p>
+                                             <button class="mil-learn-more-btn" data-education-target="nmims">
+                                                 <span>Learn More</span>
+                                                 <i class="fas fa-arrow-right"></i>
+                                             </button>
                                         </div>
                                     </div>
 
                                 </div>
-                                <div class="swiper-slide">
+                                <div class="swiper-slide" data-education-id="rajhans">
 
                                     <div class="mil-icon-box mil-type-2 mil-mb-30">
                                         <div class="mil-box-text">
-                                            <p class="mil-upper mil-text-lg mil-mb-15">Rajhans Vidyalaya</p>
-                                            <p class="mil-upper mil-mb-30">2017 <span class="mil-accent">to</span> 2019</p>
-                                            <p>Completed High School with a focus on Science and Mathematics, preparing for higher education in technology.</p>
+                                             <p class="mil-upper mil-text-lg mil-mb-15">Rajhans Vidyalaya</p>
+                                             <p class="mil-upper mil-mb-30">2017 <span class="mil-accent">to</span> 2019</p>
+                                             <p>Completed High School with a focus on Science and Mathematics, preparing for higher education in technology.</p>
+                                             <button class="mil-learn-more-btn" data-education-target="rajhans">
+                                                 <span>Learn More</span>
+                                                 <i class="fas fa-arrow-right"></i>
+                                             </button>
                                         </div>
                                     </div>
 
                                 </div>
-                                <div class="swiper-slide">
+                                <div class="swiper-slide" data-education-id="gokuldhaam">
 
                                     <div class="mil-icon-box mil-type-2 mil-mb-30">
                                         <div class="mil-box-text">
-                                            <p class="mil-upper mil-text-lg mil-mb-15">Gokuldhaam High School</p>
-                                            <p class="mil-upper mil-mb-30">2005 <span class="mil-accent">to</span> 2017</p>
-                                            <p>Completed primary and secondary education with strong foundation in mathematics and sciences.</p>
+                                             <p class="mil-upper mil-text-lg mil-mb-15">Gokuldhaam High School</p>
+                                             <p class="mil-upper mil-mb-30">2005 <span class="mil-accent">to</span> 2017</p>
+                                             <p>Completed primary and secondary education with strong foundation in mathematics and sciences.</p>
+                                             <button class="mil-learn-more-btn" data-education-target="gokuldhaam">
+                                                 <span>Learn More</span>
+                                                 <i class="fas fa-arrow-right"></i>
+                                             </button>
                                         </div>
                                     </div>
 
@@ -675,6 +691,184 @@
     <!-- pagination end -->
 
     <!-- jquery js -->
+            <!-- Hidden Modal Content Templates -->
+        <div class="mil-modal-templates" style="display: none;">
+            
+            <!-- Penn State Template -->
+            <div id="modal-content-penn-state" class="mil-modal-content-template">
+                <div class="mil-education-modal-header">
+                    <h2>The Pennsylvania State University</h2>
+                    <div class="period">2024 - 2026</div>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Program Overview</h3>
+                    <p>Pursuing a Master of Science in Computer Science with specialization in advanced software engineering, data science, and machine learning applications. The program emphasizes both theoretical foundations and practical applications in modern computing.</p>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Academic Focus Areas</h3>
+                    <p>Concentrating on cutting-edge topics in computer science including:</p>
+                    <ul class="mil-education-list">
+                        <li>Advanced Machine Learning & AI Systems</li>
+                        <li>Distributed Computing & Cloud Architecture</li>
+                        <li>Software Engineering at Scale</li>
+                        <li>Data Science & Analytics</li>
+                        <li>Computer Systems & Performance Optimization</li>
+                        <li>Database Systems & Big Data Technologies</li>
+                    </ul>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Current Coursework</h3>
+                    <p>Enrolled in graduate-level courses that bridge theory and industry practice:</p>
+                    <ul class="mil-education-list">
+                        <li>Advanced Data Structures & Algorithms Analysis</li>
+                        <li>Machine Learning Systems Design</li>
+                        <li>Distributed Systems Architecture</li>
+                        <li>Software Architecture & Design Patterns</li>
+                        <li>Database Systems Implementation</li>
+                        <li>Computer Networks & Security</li>
+                    </ul>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Teaching & Leadership</h3>
+                    <p>Actively engaged in academic community through teaching assistance and peer mentoring. Contributing to research projects and collaborating with faculty on cutting-edge computer science research initiatives.</p>
+                </div>
+            </div>
+
+            <!-- NMIMS Template -->
+            <div id="modal-content-nmims" class="mil-modal-content-template">
+                <div class="mil-education-modal-header">
+                    <h2>NMIMS University</h2>
+                    <div class="period">2019 - 2023</div>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Degree Achievement</h3>
+                    <p>Successfully completed Bachelor of Technology in Computer Engineering with comprehensive training in software development, system design, and emerging technologies. The program provided a strong foundation in both theoretical computer science and practical engineering applications.</p>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Core Technical Curriculum</h3>
+                    <p>Mastered fundamental and advanced topics in computer engineering:</p>
+                    <ul class="mil-education-list">
+                        <li>Data Structures & Algorithms Implementation</li>
+                        <li>Database Management & Design</li>
+                        <li>Software Engineering Methodologies</li>
+                        <li>Computer Networks & Protocols</li>
+                        <li>Operating Systems & System Programming</li>
+                        <li>Web Technologies & Frameworks</li>
+                        <li>Object-Oriented Programming & Design</li>
+                        <li>System Analysis & Software Architecture</li>
+                        <li>Mobile Application Development</li>
+                        <li>Cybersecurity & Information Systems</li>
+                    </ul>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Major Projects</h3>
+                    <p>Developed significant software projects that demonstrated practical application of learning:</p>
+                    <ul class="mil-education-list">
+                        <li>Full-stack web application using React and Node.js</li>
+                        <li>Mobile app for campus management with real-time features</li>
+                        <li>Database-driven inventory management system</li>
+                        <li>Machine learning model for predictive analytics</li>
+                        <li>Distributed system for file sharing and collaboration</li>
+                    </ul>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Academic Excellence</h3>
+                    <p>Maintained strong academic performance while actively participating in technical competitions, hackathons, and coding challenges. Developed leadership skills through team projects and collaborative software development initiatives.</p>
+                </div>
+            </div>
+
+            <!-- Rajhans Vidyalaya Template -->
+            <div id="modal-content-rajhans" class="mil-modal-content-template">
+                <div class="mil-education-modal-header">
+                    <h2>Rajhans Vidyalaya</h2>
+                    <div class="period">2017 - 2019</div>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Higher Secondary Education</h3>
+                    <p>Completed Higher Secondary Certificate (HSC) with Science stream, focusing on Physics, Chemistry, Mathematics, and Computer Science. This crucial phase prepared me for the transition to higher technical education and built the analytical thinking required for engineering studies.</p>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Science & Mathematics Focus</h3>
+                    <p>Specialized in core subjects that formed the foundation for engineering:</p>
+                    <ul class="mil-education-list">
+                        <li>Advanced Mathematics (Calculus, Statistics, Algebra)</li>
+                        <li>Physics (Mechanics, Electronics, Modern Physics)</li>
+                        <li>Chemistry (Organic, Inorganic, Physical Chemistry)</li>
+                        <li>Computer Science Fundamentals</li>
+                        <li>English Communication & Technical Writing</li>
+                    </ul>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Competitive Preparation</h3>
+                    <p>Dedicated significant effort to preparing for engineering entrance examinations including JEE (Joint Entrance Examination) and state-level engineering tests. This intensive preparation strengthened problem-solving abilities and time management skills.</p>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Technical Interest Development</h3>
+                    <p>Early exposure to computer programming and logical thinking through computer science curriculum. Participated in science exhibitions and technical competitions that sparked interest in technology and engineering applications.</p>
+                </div>
+            </div>
+
+            <!-- Gokuldhaam High School Template -->
+            <div id="modal-content-gokuldhaam" class="mil-modal-content-template">
+                <div class="mil-education-modal-header">
+                    <h2>Gokuldhaam High School</h2>
+                    <div class="period">2005 - 2017</div>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Foundational Education</h3>
+                    <p>Completed comprehensive primary and secondary education spanning 12 years, establishing strong fundamentals in core academic subjects and developing essential learning skills that formed the foundation for all future academic achievements.</p>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Academic Foundation</h3>
+                    <p>Built solid understanding across multiple disciplines:</p>
+                    <ul class="mil-education-list">
+                        <li>Mathematics & Logical Reasoning</li>
+                        <li>Science & Scientific Method</li>
+                        <li>Language Arts & Communication Skills</li>
+                        <li>Social Studies & Critical Thinking</li>
+                        <li>Environmental Studies</li>
+                        <li>Physical Education & Sports</li>
+                    </ul>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Key Development Areas</h3>
+                    <p>The long tenure at this institution allowed for comprehensive personal and academic development. Progressed from basic literacy and numeracy to advanced problem-solving skills, developing confidence in learning and academic pursuit.</p>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Character Building</h3>
+                    <p>Participated in various school activities including cultural programs, sports competitions, and academic competitions. These experiences developed teamwork, leadership, and public speaking skills while maintaining strong academic performance.</p>
+                </div>
+                <div class="mil-education-section">
+                    <h3>Preparation for Higher Studies</h3>
+                    <p>The school's emphasis on holistic development prepared students not just academically but also personally for the challenges of higher education. Developed essential study habits, time management skills, and collaborative learning approaches.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Education Modal -->
+        <div id="educationModal" class="mil-modal">
+            <div class="mil-modal-overlay" onclick="closeEducationModal()"></div>
+            <div class="mil-modal-content">
+                <div class="mil-modal-header">
+                    <button class="mil-modal-close" onclick="closeEducationModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="mil-modal-nav">
+                        <button class="mil-modal-prev" onclick="navigateEducationModal(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="mil-modal-next" onclick="navigateEducationModal(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mil-modal-body" id="educationModalBody">
+                    <!-- Content will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+
     <script src="js/plugins/jquery.min.js"></script>
     <script src="js/plugins/jquery.validate.min.js"></script>
     <!-- magnific-popup js -->

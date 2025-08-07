@@ -45,6 +45,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function handleWheel(event) {
+        // Skip if modal is open
+        if (document.body.classList.contains('modal-scroll-locked')) {
+            return;
+        }
+        
         // Check if the screen width is greater than or equal to 1200px
         if (window.innerWidth >= 1200 && !scrolling) {
             event.preventDefault();
