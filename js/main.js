@@ -19,6 +19,35 @@ $(function () {
         } else {
             $(".mil-top-panel").removeClass("mil-active");
         }
+
+        // Logo switching for home section on desktop
+        if (window.innerWidth >= 768) {
+            var homeSection = $('[data-name="Home"]');
+            if (homeSection.length) {
+                var homeSectionTop = homeSection.offset().top;
+                var homeSectionBottom = homeSectionTop + homeSection.outerHeight();
+                var currentScroll = $(window).scrollTop();
+                var windowHeight = $(window).height();
+                
+                // Check if we're in the home section viewport
+                if (currentScroll < homeSectionBottom - 100) {
+                    $(".mil-top-panel").addClass("mil-home-section");
+                } else {
+                    $(".mil-top-panel").removeClass("mil-home-section");
+                }
+            }
+        } else {
+            // On mobile, always use black logo
+            $(".mil-top-panel").removeClass("mil-home-section");
+        }
+    });
+
+    // Initial logo state check on page load
+    $(window).trigger('scroll');
+
+    // Also check on window resize
+    $(window).on('resize', function() {
+        $(window).trigger('scroll');
     });
 
     var swiper = new Swiper('.mil-timeline-slider', {

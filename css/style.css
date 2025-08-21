@@ -1834,7 +1834,7 @@ top panel
 }
 .mil-top-panel .mil-logo {
   position: relative;
-  margin-top: 2px;
+  margin-top: 15px;
   padding: 0 40px;
   width: 180px;
   height: 80px;
@@ -1844,6 +1844,36 @@ top panel
 }
 .mil-top-panel .mil-logo img {
   width: 100%;
+}
+
+/* Logo switching styles */
+.mil-top-panel .mil-logo img.mil-logo-white,
+.mil-top-panel .mil-logo img.mil-logo-black {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.3s ease;
+}
+
+/* Default: show black logo, hide white logo */
+.mil-top-panel .mil-logo img.mil-logo-black {
+  opacity: 1;
+}
+.mil-top-panel .mil-logo img.mil-logo-white {
+  opacity: 0;
+}
+
+/* On desktop when in home section: show white logo, hide black logo */
+@media (min-width: 768px) {
+  .mil-top-panel.mil-home-section .mil-logo img.mil-logo-white {
+    opacity: 1;
+  }
+  .mil-top-panel.mil-home-section .mil-logo img.mil-logo-black {
+    opacity: 0;
+  }
 }
 .mil-top-panel nav {
   position: relative;
