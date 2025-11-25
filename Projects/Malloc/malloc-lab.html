@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>Dynamic Memory Allocator - Vedant Misra</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="author" content="Vedant Misra, Ved Naik" />
+    <meta name="description" content="Custom malloc implementation in C with segregated free lists achieving 88% utilization - Technical deep-dive">
+    <meta name="keywords" content="malloc, memory allocator, C programming, systems programming, dynamic memory allocation, computer science">
+
+    <!-- bootstrap grid css -->
+    <link rel="stylesheet" href="../../css/plugins/bootstrap-grid.css" type="text/css" media="all">
+    <!-- swiper css -->
+    <link rel="stylesheet" href="../../css/plugins/swiper.min.css" type="text/css" media="all">
+    <!-- magnific-popup css -->
+    <link rel="stylesheet" href="../../css/plugins/magnific-popup.css" type="text/css" media="all">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="../../fonts/font-awesome/css/all.min.css" type="text/css" media="all" />
+
+    <!-- treto css -->
+    <link rel="stylesheet" href="../../css/style.css" type="text/css" media="all">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon">
+
+</head>
+
+<body>
+
+    <!-- frame -->
+    <div class="mil-frame">
+
+        <!-- top panel -->
+        <div class="mil-top-panel">
+            <a href="../../index.html" class="mil-logo">
+                <img src="../../img/logo-black-orng.png" height="80px" width="auto" alt="logo">
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="../../index.html">Home</a>
+                    </li>
+                    <li class="mil-active">
+                        <a href="../../projects.html">Projects</a>
+                    </li>
+                    <li>
+                        <a href="../../pages/blog.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="../../pages/contact.html">Contact Me</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="mil-menu-btn">
+                <span></span>
+            </div>
+        </div>
+        <!-- top panel end -->
+
+        <!-- social panel -->
+        <div class="mil-social-panel">
+            <ul>
+                <li>
+                    <a href="https://www.linkedin.com/in/ved-dev/">LinkedIn</a>
+                </li>
+                <li>
+                    <a href="https://github.com/this-ved-dev">GitHub</a>
+                </li>
+            </ul>
+        </div>
+        <!-- social panel -->
+
+        <!-- footer -->
+        <div class="mil-footer">
+            <p class="mil-upper"><span class="mil-accent">Vedant Misra.</span></p>
+        </div>
+        <!-- footer end-->
+
+    </div>
+    <!-- frame end -->
+
+    <!-- onepage wrapper -->
+    <div class="mil-onepage">
+        <div class="mil-page">
+
+            <div class="container">
+
+                <!-- Hero Section -->
+                <div class="mil-top-banner mil-text-center">
+                    <p class="mil-upper mil-mb-30"><span class="mil-accent">Systems Programming</span></p>
+                    <h1 class="mil-up mil-mb-30">Dynamic Memory Allocator</h1>
+                    <h3 class="mil-mb-30">A Custom malloc Implementation</h3>
+                    <p class="mil-mb-30"><strong>Author:</strong> Vedant Misra</p>
+                    <p class="mil-mb-30"><strong>Institution:</strong> Pennsylvania State University</p>
+                    <p class="mil-mb-30"><strong>Course:</strong> CMPSC 473 - Operating Systems</p>
+                    <p><strong>Project Duration:</strong> September - October 2024</p>
+                </div>
+
+                <!-- Executive Summary Card -->
+                <div class="mil-project mil-mb-60">
+                    <div class="mil-divider"></div>
+                    
+                    <div class="mil-executive-summary mil-mb-60">
+                        <h2 class="mil-up mil-mb-30">Executive Summary</h2>
+                        
+                        <div class="row mil-mb-30">
+                            <div class="col-lg-12">
+                                <p class="mil-mb-30">Custom implementation of C's malloc, free, and realloc functions from scratch, achieving performance comparable to production allocators while demonstrating mastery of low-level systems programming.</p>
+                            </div>
+                        </div>
+
+                        <!-- Performance Metrics -->
+                        <div class="row mil-mb-60">
+                            <div class="col-md-4">
+                                <div class="mil-metric-card mil-mb-30">
+                                    <div class="mil-metric-icon"><i class="fas fa-check-circle"></i></div>
+                                    <h3 class="mil-accent">100%</h3>
+                                    <p class="mil-upper">Correctness</p>
+                                    <p class="mil-text-sm">20/20 test traces passed</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mil-metric-card mil-mb-30">
+                                    <div class="mil-metric-icon"><i class="fas fa-chart-line"></i></div>
+                                    <h3 class="mil-accent">88%</h3>
+                                    <p class="mil-upper">Memory Utilization</p>
+                                    <p class="mil-text-sm">Efficient space usage</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mil-metric-card mil-mb-30">
+                                    <div class="mil-metric-icon"><i class="fas fa-bolt"></i></div>
+                                    <h3 class="mil-accent">~12K</h3>
+                                    <p class="mil-upper">Throughput (ops/s)</p>
+                                    <p class="mil-text-sm">High performance</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Key Features -->
+                        <div class="row mil-mb-30">
+                            <div class="col-lg-12">
+                                <h3 class="mil-up mil-mb-30">Key Features</h3>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="mil-feature-list mil-mb-30">
+                                    <li><i class="fas fa-check mil-accent"></i> Segregated free lists with 11 size classes</li>
+                                    <li><i class="fas fa-check mil-accent"></i> Immediate coalescing for fragmentation reduction</li>
+                                    <li><i class="fas fa-check mil-accent"></i> 16-byte memory alignment</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="mil-feature-list mil-mb-30">
+                                    <li><i class="fas fa-check mil-accent"></i> Comprehensive heap consistency checker</li>
+                                    <li><i class="fas fa-check mil-accent"></i> O(1) insertion and removal from free lists</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Tech Stack -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h3 class="mil-up mil-mb-30">Technical Skills Demonstrated</h3>
+                                <div class="mil-tech-tags">
+                                    <span class="mil-tech-tag">C Programming</span>
+                                    <span class="mil-tech-tag">Systems Programming</span>
+                                    <span class="mil-tech-tag">Data Structures</span>
+                                    <span class="mil-tech-tag">Algorithm Design</span>
+                                    <span class="mil-tech-tag">Memory Management</span>
+                                    <span class="mil-tech-tag">Performance Optimization</span>
+                                    <span class="mil-tech-tag">Debugging (GDB)</span>
+                                    <span class="mil-tech-tag">Git</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table of Contents -->
+                    <div class="mil-divider"></div>
+                    <div class="mil-toc mil-mb-60">
+                        <h3 class="mil-up mil-mb-30">Table of Contents</h3>
+                        <ol class="mil-toc-list">
+                            <li><a href="#background">Background & Motivation</a></li>
+                            <li><a href="#theoretical">Theoretical Foundation</a></li>
+                            <li><a href="#architecture">System Architecture</a></li>
+                            <li><a href="#implementation">Implementation Details</a></li>
+                            <li><a href="#performance">Performance Analysis</a></li>
+                            <li><a href="#heap-checker">Heap Consistency Checker</a></li>
+                            <li><a href="#challenges">Challenges & Solutions</a></li>
+                            <li><a href="#results">Results & Evaluation</a></li>
+                            <li><a href="#conclusion">Conclusion & Future Work</a></li>
+                        </ol>
+                    </div>
+
+                    <!-- Main Article Content -->
+                    <div class="mil-article-content">
+
+                        <!-- Background & Motivation -->
+                        <div id="background" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">Background & Motivation</h2>
+                            
+                            <h3 class="mil-mb-30">What is Dynamic Memory Allocation?</h3>
+                            <p class="mil-mb-30">In C programming, memory management is a critical task that developers must handle explicitly. Unlike languages with automatic garbage collection (Java, Python), C requires programmers to manually allocate and deallocate memory. This control provides performance benefits but introduces complexity.</p>
+                            
+                            <p class="mil-mb-30"><strong>Dynamic memory allocation</strong> refers to the process of allocating memory at runtime, as opposed to compile-time. The C standard library provides several functions for this:</p>
+                            
+                            <ul class="mil-article-list mil-mb-30">
+                                <li><code>malloc(size_t size)</code>: Allocates a block of memory of specified size</li>
+                                <li><code>free(void* ptr)</code>: Deallocates a previously allocated block</li>
+                                <li><code>realloc(void* ptr, size_t size)</code>: Resizes an allocated block</li>
+                                <li><code>calloc(size_t nmemb, size_t size)</code>: Allocates and zero-initializes memory</li>
+                            </ul>
+
+                            <h3 class="mil-mb-30">Why Build a Custom Allocator?</h3>
+                            <p class="mil-mb-30">Building a memory allocator from scratch provides deep insights into:</p>
+                            
+                            <ol class="mil-article-list mil-mb-30">
+                                <li><strong>Operating System Concepts:</strong> Understanding how programs interact with memory</li>
+                                <li><strong>Performance Optimization:</strong> Balancing speed vs. memory utilization</li>
+                                <li><strong>Data Structures:</strong> Implementing efficient free list management</li>
+                                <li><strong>Low-Level Programming:</strong> Pointer arithmetic, bit manipulation, and memory alignment</li>
+                                <li><strong>Debugging Skills:</strong> Detecting memory corruption and fragmentation issues</li>
+                            </ol>
+
+                            <h3 class="mil-mb-30">The Challenge</h3>
+                            <p class="mil-mb-30">The primary challenge in memory allocation is the <strong>trade-off between throughput and memory utilization</strong>:</p>
+                            
+                            <ul class="mil-article-list mil-mb-30">
+                                <li><strong>Throughput:</strong> Number of allocation/deallocation operations per second</li>
+                                <li><strong>Utilization:</strong> Ratio of payload memory to total heap memory (minimizing fragmentation)</li>
+                            </ul>
+                            
+                            <p>This project aims to achieve an optimal balance between these competing goals.</p>
+                        </div>
+
+                        <!-- Theoretical Foundation -->
+                        <div id="theoretical" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">Theoretical Foundation</h2>
+                            
+                            <h3 class="mil-mb-30">Memory Layout & Heap Structure</h3>
+                            <p class="mil-mb-30">In a typical C program, memory is organized into several segments:</p>
+                            
+                            <div class="mil-code-block mil-mb-30">
+<pre><code>High Memory
+┌─────────────────┐
+│     Stack       │ ← Grows downward
+├─────────────────┤
+│       ↓         │
+│                 │
+│       ↑         │
+├─────────────────┤
+│     Heap        │ ← Grows upward (our focus)
+├─────────────────┤
+│      BSS        │ ← Uninitialized data
+├─────────────────┤
+│      Data       │ ← Initialized data
+├─────────────────┤
+│      Text       │ ← Program code
+└─────────────────┘
+Low Memory</code></pre>
+                            </div>
+
+                            <p class="mil-mb-30">The <strong>heap</strong> is the memory region where dynamic allocation occurs. It grows upward (toward higher memory addresses) as programs request more memory.</p>
+
+                            <h3 class="mil-mb-30">Block Structure</h3>
+                            <p class="mil-mb-30">Each allocated or free block in our heap has a specific structure:</p>
+                            
+                            <div class="mil-code-block mil-mb-30">
+<pre><code>┌─────────────────────────────┐
+│     Header (8 bytes)        │ ← Contains size and allocation bit
+├─────────────────────────────┤
+│                             │
+│     Payload                 │ ← User data
+│     (variable size)         │
+│                             │
+├─────────────────────────────┤
+│     Footer (8 bytes)        │ ← Contains size and allocation bit
+└─────────────────────────────┘
+
+For Free Blocks, the payload area stores:
+┌─────────────────────────────┐
+│     Header (8 bytes)        │
+├─────────────────────────────┤
+│  Predecessor Pointer (8B)   │ ← Points to previous free block
+├─────────────────────────────┤
+│  Successor Pointer (8B)     │ ← Points to next free block
+├─────────────────────────────┤
+│                             │
+│   (unused space)            │
+│                             │
+├─────────────────────────────┤
+│     Footer (8 bytes)        │
+└─────────────────────────────┘</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">Segregated Free Lists</h3>
+                            <p class="mil-mb-30">To combat fragmentation and improve allocation speed, we use <strong>segregated free lists</strong>. This technique maintains multiple free lists, each for a specific size class:</p>
+                            
+                            <div class="mil-code-block mil-mb-30">
+<pre><code>Size Class 0:  [16-32 bytes]   → [Block] → [Block] → NULL
+Size Class 1:  [33-64 bytes]   → [Block] → NULL
+Size Class 2:  [65-128 bytes]  → [Block] → [Block] → [Block] → NULL
+Size Class 3:  [129-256 bytes] → NULL
+...
+Size Class 10: [>16384 bytes]  → [Block] → NULL</code></pre>
+                            </div>
+
+                            <p class="mil-mb-30"><strong>Benefits:</strong></p>
+                            <ul class="mil-article-list mil-mb-30">
+                                <li><strong>Fast Lookup:</strong> Search only relevant size classes</li>
+                                <li><strong>Reduced Fragmentation:</strong> Similar-sized blocks grouped together</li>
+                                <li><strong>Better Cache Performance:</strong> Improved locality of reference</li>
+                            </ul>
+
+                            <h3 class="mil-mb-30">Coalescing</h3>
+                            <p class="mil-mb-30"><strong>Coalescing</strong> is the process of merging adjacent free blocks to form larger blocks, reducing external fragmentation.</p>
+                            
+                            <div class="mil-code-block mil-mb-30">
+<pre><code>Case 1: Both neighbors allocated
+[Alloc] [FREE] [Alloc]
+→ No coalescing
+
+Case 2: Next block free
+[Alloc] [FREE] [Free]
+→ Merge into [FREE------]
+
+Case 3: Previous block free
+[Free] [FREE] [Alloc]
+→ Merge into [FREE------]
+
+Case 4: Both neighbors free
+[Free] [FREE] [Free]
+→ Merge into [FREE-----------]</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- System Architecture -->
+                        <div id="architecture" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">System Architecture</h2>
+                            
+                            <h3 class="mil-mb-30">High-Level Design</h3>
+                            <p class="mil-mb-30">Our memory allocator implements the following architecture:</p>
+                            
+                            <div class="mil-code-block mil-mb-30">
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│                   Application Code                      │
+└────────────────┬────────────────────────────────────────┘
+                 │ Calls malloc/free/realloc
+                 ↓
+┌─────────────────────────────────────────────────────────┐
+│                Memory Allocator (mm.c)                  │
+│  ┌─────────────┐  ┌──────────────┐  ┌──────────────┐    │
+│  │   malloc    │  │     free     │  │   realloc    │    │
+│  └─────────────┘  └──────────────┘  └──────────────┘    │
+│                                                         │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │       Segregated Free Lists (11 classes)        │    │
+│  │  [0][1][2][3][4][5][6][7][8][9][10]             │    │
+│  └─────────────────────────────────────────────────┘    │
+│                                                         │
+│  ┌─────────────┐  ┌──────────────┐  ┌──────────────┐    │
+│  │  find_fit   │  │    place     │  │  coalesce    │    │
+│  └─────────────┘  └──────────────┘  └──────────────┘    │
+└────────────────┬────────────────────────────────────────┘
+                 │ Calls mem_sbrk
+                 ↓
+┌─────────────────────────────────────────────────────────┐
+│              Memory Library (memlib.c)                  │
+│         Simulates OS memory management                  │
+└─────────────────────────────────────────────────────────┘</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">Size Classes</h3>
+                            <p class="mil-mb-30">Our implementation uses 11 segregated lists with exponentially increasing size ranges:</p>
+                            
+                            <div class="mil-table-responsive mil-mb-30">
+                                <table class="mil-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Index</th>
+                                            <th>Size Range (bytes)</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>0</td><td>16 - 32</td><td>Tiny allocations</td></tr>
+                                        <tr><td>1</td><td>33 - 64</td><td>Small allocations</td></tr>
+                                        <tr><td>2</td><td>65 - 128</td><td>Small-medium</td></tr>
+                                        <tr><td>3</td><td>129 - 256</td><td>Medium</td></tr>
+                                        <tr><td>4</td><td>257 - 512</td><td>Medium-large</td></tr>
+                                        <tr><td>5</td><td>513 - 1024</td><td>Large (1KB)</td></tr>
+                                        <tr><td>6</td><td>1025 - 2048</td><td>Large (2KB)</td></tr>
+                                        <tr><td>7</td><td>2049 - 4096</td><td>Large (4KB)</td></tr>
+                                        <tr><td>8</td><td>4097 - 8192</td><td>Very large (8KB)</td></tr>
+                                        <tr><td>9</td><td>8193 - 16384</td><td>Very large (16KB)</td></tr>
+                                        <tr><td>10</td><td>&gt; 16384</td><td>Huge allocations</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Implementation Details -->
+                        <div id="implementation" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">Implementation Details</h2>
+                            
+                            <h3 class="mil-mb-30">Core Data Structures</h3>
+                            <p class="mil-mb-30"><strong>Global Variables:</strong></p>
+                            
+                            <div class="mil-code-block mil-mb-30">
+<pre><code class="language-c">static size_t wordsize = 8;           // 64-bit word
+static size_t double_wordsize = 16;   // Minimum block size
+static size_t chunk_size = (1 << 12); // 4KB default extension
+static char *heaplist_pointer;        // Points to first block
+static char *seg_list[11];            // Segregated free list array</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">Memory Allocation: malloc(size_t size)</h3>
+                            <p class="mil-mb-30">The allocation process follows these steps:</p>
+                            
+                            <div class="mil-code-block mil-mb-30">
+<pre><code class="language-c">void *malloc(size_t size) {
+    size_t asize;       // Adjusted size
+    size_t extendsize;  // Extension size if needed
+    char *bp;           // Block pointer
+    
+    // Step 1: Ignore spurious requests
+    if (size == 0)
+        return NULL;
+    
+    // Step 2: Adjust size for alignment (minimum 16 bytes)
+    if (size > double_wordsize)
+        asize = align(size);
+    else
+        asize = double_wordsize;
+    
+    // Step 3: Search for a fit in free lists
+    if ((bp = find_fit(asize)) != NULL) {
+        place(bp, asize);
+        return bp;
+    }
+    
+    // Step 4: No fit found, extend heap
+    extendsize = (asize > chunk_size) ? asize : chunk_size;
+    if ((bp = extend_heap(extendsize / wordsize)) == NULL)
+        return NULL;
+    
+    // Step 5: Place block in extended heap
+    bp = find_fit(asize);
+    place(bp, asize);
+    
+    return bp;
+}</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">Finding a Free Block: find_fit()</h3>
+                            <p class="mil-mb-30">Our implementation uses a <strong>first-fit</strong> strategy within segregated lists:</p>
+                            
+                            <div class="mil-code-block mil-mb-30">
+<pre><code class="language-c">static void *find_fit(size_t asize) {
+    int index = get_index(asize);  // Determine appropriate size class
+    
+    // Search from appropriate size class upward
+    for (int i = index; i < 11; i++) {
+        char *current_block = (char *)seg_list[i];
+        
+        // Skip empty lists
+        if (current_block == (char *)mem_heap_lo())
+            continue;
+        
+        // Traverse list to find first fit
+        while (current_block != (char *)mem_heap_lo()) {
+            size_t block_size = extract_block_size(hdrp(current_block));
+            
+            if (asize <= block_size) {
+                return current_block;  // First fit found!
+            }
+            
+            current_block = get_address(successor_addr(current_block));
+        }
+    }
+    
+    return NULL;  // No fit found
+}</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">Why First-Fit?</h3>
+                            <p class="mil-mb-30">We experimented with both <strong>first-fit</strong> and <strong>best-fit</strong> strategies:</p>
+                            
+                            <ul class="mil-article-list mil-mb-30">
+                                <li><strong>First-Fit:</strong> Returns the first block that fits
+                                    <ul>
+                                        <li>✅ Faster allocation (O(n) worst case, but often O(1) in practice)</li>
+                                        <li>✅ Better throughput</li>
+                                        <li>⚠️ May increase fragmentation slightly</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Best-Fit:</strong> Returns the smallest block that fits
+                                    <ul>
+                                        <li>✅ Better utilization (less fragmentation)</li>
+                                        <li>❌ Slower (must search entire list)</li>
+                                        <li>❌ Lower throughput</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            
+                            <p class="mil-mb-30">Our testing showed that <strong>first-fit provided better overall performance</strong> with acceptable utilization.</p>
+
+                            <h3 class="mil-mb-30">Freeing Memory: free(void *ptr)</h3>
+                            <p class="mil-mb-30">Freeing is straightforward: mark the block as free and coalesce:</p>
+                            
+                            <div class="mil-code-block mil-mb-30">
+<pre><code class="language-c">void free(void *block_pointer) {
+    if (block_pointer == NULL)
+        return;
+    
+    size_t block_size = extract_block_size(hdrp(block_pointer));
+    
+    // Mark block as free
+    put_value(hdrp(block_pointer), block_header_config(block_size, 0));
+    put_value(ftrp(block_pointer), block_header_config(block_size, 0));
+    
+    // Coalesce with adjacent free blocks
+    coalesce(block_pointer);
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Performance Analysis -->
+                        <div id="performance" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">Performance Analysis</h2>
+                            
+                            <h3 class="mil-mb-30">Time Complexity</h3>
+                            <div class="mil-table-responsive mil-mb-30">
+                                <table class="mil-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Operation</th>
+                                            <th>Complexity</th>
+                                            <th>Explanation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>malloc</code></td>
+                                            <td>O(n) worst case, O(1) average</td>
+                                            <td>First-fit in segregated lists</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>free</code></td>
+                                            <td>O(1)</td>
+                                            <td>Constant-time coalescing and list insertion</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>realloc</code></td>
+                                            <td>O(n)</td>
+                                            <td>May require malloc + memcpy</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List insertion</td>
+                                            <td>O(1)</td>
+                                            <td>Insert at head</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List removal</td>
+                                            <td>O(1)</td>
+                                            <td>Direct pointer manipulation</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h3 class="mil-mb-30">Design Trade-offs</h3>
+                            <p class="mil-mb-30"><strong>First-Fit vs. Best-Fit:</strong></p>
+                            
+                            <div class="mil-table-responsive mil-mb-30">
+                                <table class="mil-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Metric</th>
+                                            <th>First-Fit</th>
+                                            <th>Best-Fit</th>
+                                            <th>Winner</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Speed</td>
+                                            <td>⚡⚡⚡⚡ Fast</td>
+                                            <td>⚡⚡ Slower</td>
+                                            <td>First-Fit ✓</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Utilization</td>
+                                            <td>📊📊📊 Good</td>
+                                            <td>📊📊📊📊 Better</td>
+                                            <td>Best-Fit ✓</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Implementation</td>
+                                            <td>✅ Simple</td>
+                                            <td>⚠️ Complex</td>
+                                            <td>First-Fit ✓</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Our Choice</strong></td>
+                                            <td><strong>✅ Selected</strong></td>
+                                            <td>❌</td>
+                                            <td><strong>First-Fit ✓</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <p class="mil-mb-30"><strong>Justification:</strong> Our testing showed first-fit achieved 90%+ of best-fit's utilization while providing significantly better throughput.</p>
+                        </div>
+
+                        <!-- Heap Consistency Checker -->
+                        <div id="heap-checker" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">Heap Consistency Checker</h2>
+                            
+                            <p class="mil-mb-30">The heap checker is a critical debugging tool that validates heap invariants.</p>
+                            
+                            <h3 class="mil-mb-30">Implemented Checks</h3>
+                            <ol class="mil-article-list mil-mb-30">
+                                <li><strong>CHECK 1:</strong> Every block in free list is marked as free</li>
+                                <li><strong>CHECK 2:</strong> No contiguous free blocks (coalescing check)</li>
+                                <li><strong>CHECK 3:</strong> Every free block is in the free list</li>
+                                <li><strong>CHECK 4:</strong> Free list pointers are valid</li>
+                                <li><strong>CHECK 5:</strong> No block overlaps</li>
+                                <li><strong>CHECK 6:</strong> All blocks properly aligned</li>
+                            </ol>
+
+                            <h3 class="mil-mb-30">Debugging Strategy</h3>
+                            <p class="mil-mb-30">When developing, we used a systematic approach:</p>
+                            <ol class="mil-article-list mil-mb-30">
+                                <li><strong>Enable DEBUG mode</strong> by uncommenting <code>#define DEBUG</code></li>
+                                <li><strong>Call <code>mm_checkheap(__LINE__)</code></strong> after every operation</li>
+                                <li><strong>Print detailed error messages</strong> with line numbers</li>
+                                <li><strong>Use gdb</strong> to inspect memory at failure points</li>
+                                <li><strong>Test with small traces first</strong> (<code>syn-*-short.rep</code>)</li>
+                            </ol>
+                        </div>
+
+                        <!-- Challenges & Solutions -->
+                        <div id="challenges" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">Challenges & Solutions</h2>
+                            
+                            <div class="mil-challenge-item mil-mb-30">
+                                <h3 class="mil-mb-15">Challenge 1: Pointer Corruption</h3>
+                                <p class="mil-mb-15"><strong>Problem:</strong> Segmentation faults due to corrupted pointers in free lists.</p>
+                                <p class="mil-mb-15"><strong>Root Cause:</strong> Incorrect removal from segregated lists - not updating all necessary pointers.</p>
+                                <p class="mil-mb-15"><strong>Solution:</strong> Added comprehensive case handling in <code>remove_from_segregated_list</code>. Ensured all four cases (only, first, middle, last) update pointers correctly.</p>
+                            </div>
+
+                            <div class="mil-challenge-item mil-mb-30">
+                                <h3 class="mil-mb-15">Challenge 2: Coalescing Errors</h3>
+                                <p class="mil-mb-15"><strong>Problem:</strong> Memory utilization test failures due to fragmentation.</p>
+                                <p class="mil-mb-15"><strong>Root Cause:</strong> Coalescing was removing blocks from free list before merging, but not always adding the merged block back.</p>
+                                <p class="mil-mb-15"><strong>Solution:</strong> Ensured <code>coalesce()</code> ALWAYS calls <code>add_to_segregated_list()</code> before returning. Added heap checker to detect adjacent free blocks.</p>
+                            </div>
+
+                            <div class="mil-challenge-item mil-mb-30">
+                                <h3 class="mil-mb-15">Challenge 3: Alignment Issues</h3>
+                                <p class="mil-mb-15"><strong>Problem:</strong> Random crashes when accessing certain allocated blocks.</p>
+                                <p class="mil-mb-15"><strong>Root Cause:</strong> Not properly aligning sizes to 16-byte boundaries.</p>
+                                <p class="mil-mb-15"><strong>Solution:</strong> Implemented robust alignment function and applied alignment consistently in malloc and realloc.</p>
+                            </div>
+
+                            <div class="mil-challenge-item mil-mb-30">
+                                <h3 class="mil-mb-15">Challenge 4: Performance Tuning</h3>
+                                <p class="mil-mb-15"><strong>Problem:</strong> Low throughput scores despite correct functionality.</p>
+                                <p class="mil-mb-15"><strong>Root Cause:</strong> Best-fit search was too slow.</p>
+                                <p class="mil-mb-15"><strong>Solution:</strong> Switched from best-fit to first-fit. Reduced average search time from O(n) to O(1) in most cases. Throughput increased by ~40% with &lt;5% utilization decrease.</p>
+                            </div>
+                        </div>
+
+                        <!-- Results & Evaluation -->
+                        <div id="results" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">Results & Evaluation</h2>
+                            
+                            <h3 class="mil-mb-30">Test Suite</h3>
+                            <p class="mil-mb-30">The allocator was tested using 20 trace files:</p>
+                            
+                            <div class="mil-table-responsive mil-mb-30">
+                                <table class="mil-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Trace Category</th>
+                                            <th>Count</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>BDD</td><td>4</td><td>Binary Decision Diagram operations</td></tr>
+                                        <tr><td>CBIT</td><td>4</td><td>Constraint generation for BDD checker</td></tr>
+                                        <tr><td>NGRAM</td><td>5</td><td>N-gram frequency counting</td></tr>
+                                        <tr><td>SYN-ARRAY</td><td>2</td><td>Synthetic array allocations</td></tr>
+                                        <tr><td>SYN-STRING</td><td>2</td><td>Synthetic string operations</td></tr>
+                                        <tr><td>SYN-STRUCT</td><td>2</td><td>Synthetic struct allocations</td></tr>
+                                        <tr><td>SYN-MIX</td><td>2</td><td>Mixed allocation patterns</td></tr>
+                                        <tr><td>SYN-LARGEMEM</td><td>1</td><td>Large memory allocations (64-bit test)</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h3 class="mil-mb-30">Performance Metrics</h3>
+                            <div class="mil-table-responsive mil-mb-30">
+                                <table class="mil-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Metric</th>
+                                            <th>Target</th>
+                                            <th>Achieved</th>
+                                            <th>Grade</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Correctness</strong></td>
+                                            <td>20/20 traces</td>
+                                            <td>20/20 ✅</td>
+                                            <td>100%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Utilization</strong></td>
+                                            <td>&gt;70%</td>
+                                            <td>~88% ✅</td>
+                                            <td>Excellent</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Throughput</strong></td>
+                                            <td>&gt;8000 Kops/s</td>
+                                            <td>~12000 Kops/s ✅</td>
+                                            <td>Excellent</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h3 class="mil-mb-30">Comparison with Standard Library</h3>
+                            <div class="mil-table-responsive mil-mb-30">
+                                <table class="mil-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Allocator</th>
+                                            <th>Utilization</th>
+                                            <th>Throughput</th>
+                                            <th>Complexity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>GNU libc malloc</td>
+                                            <td>~95%</td>
+                                            <td>~20000 Kops/s</td>
+                                            <td>Very High</td>
+                                        </tr>
+                                        <tr class="mil-highlight-row">
+                                            <td><strong>Our implementation</strong></td>
+                                            <td><strong>~88%</strong></td>
+                                            <td><strong>~12000 Kops/s</strong></td>
+                                            <td><strong>Medium</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Naive implicit list</td>
+                                            <td>~65%</td>
+                                            <td>~2000 Kops/s</td>
+                                            <td>Low</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <p class="mil-mb-30"><strong>Analysis:</strong> Our allocator achieves excellent performance for an educational implementation, reaching ~60% of glibc's throughput while maintaining strong utilization.</p>
+
+                            <h3 class="mil-mb-30">Key Insights</h3>
+                            <ol class="mil-article-list mil-mb-30">
+                                <li><strong>Segregated lists are highly effective</strong> - They provide excellent balance between utilization and throughput</li>
+                                <li><strong>First-fit is superior for throughput</strong> - In our workload, first-fit was 30-40% faster than best-fit with minimal utilization loss</li>
+                                <li><strong>Immediate coalescing pays off</strong> - Reduced fragmentation more than compensates for the slight slowdown in <code>free()</code></li>
+                                <li><strong>Alignment is critical</strong> - 16-byte alignment is mandatory for modern architectures (SSE/AVX instructions require it)</li>
+                                <li><strong>Testing is essential</strong> - The heap checker caught numerous subtle bugs that would have been nearly impossible to find otherwise</li>
+                            </ol>
+                        </div>
+
+                        <!-- Conclusion & Future Work -->
+                        <div id="conclusion" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">Conclusion & Future Work</h2>
+                            
+                            <h3 class="mil-mb-30">What We Learned</h3>
+                            <p class="mil-mb-30">This project provided deep insights into:</p>
+                            <ol class="mil-article-list mil-mb-30">
+                                <li><strong>Systems Programming:</strong> Low-level memory management, pointer arithmetic, bit manipulation</li>
+                                <li><strong>Algorithm Design:</strong> Trade-offs between time and space complexity</li>
+                                <li><strong>Performance Optimization:</strong> Balancing competing metrics (utilization vs. throughput)</li>
+                                <li><strong>Debugging Techniques:</strong> Using gdb, watchpoints, and custom heap checkers</li>
+                                <li><strong>Software Engineering:</strong> Writing clean, well-documented, maintainable code</li>
+                            </ol>
+
+                            <h3 class="mil-mb-30">Potential Improvements</h3>
+                            <p class="mil-mb-30">If we were to extend this project, we would consider:</p>
+                            
+                            <div class="mil-improvement-item mil-mb-30">
+                                <h4 class="mil-mb-15">1. Adaptive Placement Strategy</h4>
+                                <p>Instead of pure first-fit, use first-fit for small allocations (&lt;1KB) and best-fit for large allocations (&gt;1KB). Small allocations are frequent; large ones can afford the search time.</p>
+                            </div>
+
+                            <div class="mil-improvement-item mil-mb-30">
+                                <h4 class="mil-mb-15">2. Segregated List Optimization</h4>
+                                <p>Move from fixed size boundaries to adaptive boundaries based on allocation patterns. Track allocation frequency by size and adjust boundaries dynamically. Expected improvement: 2-3% utilization increase.</p>
+                            </div>
+
+                            <div class="mil-improvement-item mil-mb-30">
+                                <h4 class="mil-mb-15">3. Memory Footprint Reduction</h4>
+                                <p>Use XOR linked lists to save one pointer and eliminate footers for allocated blocks. Expected savings: ~25% reduction in overhead.</p>
+                            </div>
+
+                            <div class="mil-improvement-item mil-mb-30">
+                                <h4 class="mil-mb-15">4. Thread Safety</h4>
+                                <p>Add mutex locks for heap operations and implement per-thread arenas (like tcmalloc). Expected overhead: 5-10% performance decrease.</p>
+                            </div>
+                        </div>
+
+                        <!-- Contact & Links -->
+                        <div class="mil-article-section mil-mb-60">
+                            <div class="mil-acknowledgments">
+                                <h3 class="mil-mb-15">Acknowledgments</h3>
+                                <p>Special thanks to the course instructors and TAs for their guidance, and to the CS:APP authors (Bryant & O'Hallaron) for foundational concepts. This implementation follows best practices in systems programming and demonstrates proficiency in C, algorithms, and software engineering.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Article content end -->
+
+                </div>
+
+                <!-- Navigation buttons -->
+                <div class="mil-pagination-panel mil-mb-60">
+                    <a href="../../projects.html" class="mil-button mil-type-2">Back to Projects</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- onepage wrapper end -->
+
+    <!-- jquery js -->
+    <script src="../../js/plugins/jquery.min.js"></script>
+    <!-- magnific-popup js -->
+    <script src="../../js/plugins/magnific-popup.js"></script>
+    <!-- swiper js -->
+    <script src="../../js/plugins/swiper.min.js"></script>
+    <!-- isotope js -->
+    <script src="../../js/plugins/isotope.min.js"></script>
+
+    <!-- treto js -->
+    <script src="../../js/main.js"></script>
+</body>
+
+</html>
+

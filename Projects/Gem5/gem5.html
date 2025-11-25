@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>Analyzing CPU and Memory Trade-offs Using gem5 - Vedant Misra</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="author" content="Vedant Misra" />
+    <meta name="description" content="Quantitative analysis of CPU models, clock frequencies, and memory configurations using gem5 architectural simulator - A comprehensive computer architecture study">
+    <meta name="keywords" content="gem5, computer architecture, CPU performance, memory bandwidth, simulation, quicksort, performance analysis, systems research">
+
+    <!-- bootstrap grid css -->
+    <link rel="stylesheet" href="../../css/plugins/bootstrap-grid.css" type="text/css" media="all">
+    <!-- swiper css -->
+    <link rel="stylesheet" href="../../css/plugins/swiper.min.css" type="text/css" media="all">
+    <!-- magnific-popup css -->
+    <link rel="stylesheet" href="../../css/plugins/magnific-popup.css" type="text/css" media="all">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="../../fonts/font-awesome/css/all.min.css" type="text/css" media="all" />
+
+    <!-- treto css -->
+    <link rel="stylesheet" href="../../css/style.css" type="text/css" media="all">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon">
+
+</head>
+
+<body>
+
+    <!-- frame -->
+    <div class="mil-frame">
+
+        <!-- top panel -->
+        <div class="mil-top-panel">
+            <a href="../../index.html" class="mil-logo">
+                <img src="../../img/logo-black-orng.png" height="80px" width="auto" alt="logo">
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="../../index.html">Home</a>
+                    </li>
+                    <li class="mil-active">
+                        <a href="../../projects.html">Projects</a>
+                    </li>
+                    <li>
+                        <a href="../../pages/blog.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="../../pages/contact.html">Contact Me</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="mil-menu-btn">
+                <span></span>
+            </div>
+        </div>
+        <!-- top panel end -->
+
+        <!-- social panel -->
+        <div class="mil-social-panel">
+            <ul>
+                <li>
+                    <a href="https://www.linkedin.com/in/ved-dev/">LinkedIn</a>
+                </li>
+                <li>
+                    <a href="https://github.com/this-ved-dev">GitHub</a>
+                </li>
+            </ul>
+        </div>
+        <!-- social panel -->
+
+        <!-- footer -->
+        <div class="mil-footer">
+            <p class="mil-upper"><span class="mil-accent">Vedant Misra.</span></p>
+        </div>
+        <!-- footer end-->
+
+    </div>
+    <!-- frame end -->
+
+    <!-- onepage wrapper -->
+    <div class="mil-onepage">
+        <div class="mil-page">
+
+            <div class="container">
+
+                <!-- Hero Section -->
+                <div class="mil-top-banner mil-text-center">
+                    <p class="mil-upper mil-mb-30"><span class="mil-accent">Computer Architecture</span></p>
+                    <h1 class="mil-up mil-mb-30">Analyzing CPU and Memory Trade-offs Using gem5</h1>
+                    <h3 class="mil-mb-30">A Quicksort Performance Case Study</h3>
+                    <p class="mil-mb-30"><strong>Author:</strong> Vedant Misra</p>
+                    <p class="mil-mb-30"><strong>Institution:</strong> Pennsylvania State University</p>
+                    <p class="mil-mb-30"><strong>Course:</strong> CSE 530 - Computer Architecture</p>
+                    <p><strong>Publication Date:</strong> November 2024</p>
+                </div>
+
+                <!-- Executive Summary Card -->
+                <div class="mil-project mil-mb-60">
+                    <div class="mil-divider"></div>
+                    
+                    <div class="mil-executive-summary mil-mb-60">
+                        <h2 class="mil-up mil-mb-30">Project Overview</h2>
+                        
+                        <div class="row mil-mb-30">
+                            <div class="col-lg-12">
+                                <p class="mil-mb-30">This project demonstrates how to quantitatively analyze architectural trade-offs using <strong>gem5</strong>, a powerful, modular architectural simulator. By running the classic <strong>Quicksort algorithm</strong> across different CPU models, clock frequencies, and memory configurations, I created a reproducible experiment that reveals how these architectural choices impact real-world performance.</p>
+                            </div>
+                        </div>
+
+                        <!-- Performance Metrics -->
+                        <div class="row mil-mb-60">
+                            <div class="col-md-3">
+                                <div class="mil-metric-card mil-mb-30">
+                                    <div class="mil-metric-icon"><i class="fas fa-microchip"></i></div>
+                                    <h3 class="mil-accent">36</h3>
+                                    <p class="mil-upper">Simulations</p>
+                                    <p class="mil-text-sm">Complete configurations tested</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mil-metric-card mil-mb-30">
+                                    <div class="mil-metric-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                    <h3 class="mil-accent">~2×</h3>
+                                    <p class="mil-upper">Speedup</p>
+                                    <p class="mil-text-sm">2× frequency → 2× performance</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mil-metric-card mil-mb-30">
+                                    <div class="mil-metric-icon"><i class="fas fa-memory"></i></div>
+                                    <h3 class="mil-accent">&lt;0.3%</h3>
+                                    <p class="mil-upper">Bandwidth Impact</p>
+                                    <p class="mil-text-sm">Memory variation negligible</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mil-metric-card mil-mb-30">
+                                    <div class="mil-metric-icon"><i class="fas fa-chart-line"></i></div>
+                                    <h3 class="mil-accent">800M</h3>
+                                    <p class="mil-upper">Comparisons</p>
+                                    <p class="mil-text-sm">Total operations executed</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Key Features -->
+                        <div class="row mil-mb-30">
+                            <div class="col-lg-12">
+                                <h3 class="mil-up mil-mb-30">Key Achievements</h3>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="mil-feature-list mil-mb-30">
+                                    <li><i class="fas fa-check mil-accent"></i> Factorial experiment design (2 CPUs × 6 frequencies × 3 memory types)</li>
+                                    <li><i class="fas fa-check mil-accent"></i> Nearly linear clock scaling validated empirically</li>
+                                    <li><i class="fas fa-check mil-accent"></i> Memory bandwidth impact quantified (<0.3% variation)</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="mil-feature-list mil-mb-30">
+                                    <li><i class="fas fa-check mil-accent"></i> CPU pipeline complexity comparison (Minor vs TimingSimple)</li>
+                                    <li><i class="fas fa-check mil-accent"></i> gem5 m5ops instrumentation for precise measurement</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Tech Stack -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h3 class="mil-up mil-mb-30">Technologies Used</h3>
+                                <div class="mil-tech-tags">
+                                    <span class="mil-tech-tag">gem5 Simulator</span>
+                                    <span class="mil-tech-tag">C (ISO 99)</span>
+                                    <span class="mil-tech-tag">X86 Architecture</span>
+                                    <span class="mil-tech-tag">Python</span>
+                                    <span class="mil-tech-tag">Computer Architecture</span>
+                                    <span class="mil-tech-tag">Performance Analysis</span>
+                                    <span class="mil-tech-tag">POSIX Systems</span>
+                                    <span class="mil-tech-tag">Matplotlib</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table of Contents -->
+                    <div class="mil-divider"></div>
+                    <div class="mil-toc mil-mb-60">
+                        <h3 class="mil-up mil-mb-30">Table of Contents</h3>
+                        <ol class="mil-toc-list">
+                            <li><a href="#motivation">Project Motivation</a></li>
+                            <li><a href="#background">Background Concepts</a></li>
+                            <li><a href="#experimental-design">Experimental Design</a></li>
+                            <li><a href="#implementation">Implementation Details</a></li>
+                            <li><a href="#results">Results & Analysis</a></li>
+                            <li><a href="#key-findings">Key Findings</a></li>
+                            <li><a href="#lessons">Lessons & Insights</a></li>
+                            <li><a href="#reproducibility">Reproducibility</a></li>
+                        </ol>
+                    </div>
+
+                    <!-- Main Article Content -->
+                    <div class="mil-article-content">
+
+                        <!-- Project Motivation -->
+                        <section id="motivation" class="mil-mb-60">
+                            <div class="mil-divider mil-mb-30"></div>
+                            <h2 class="mil-up mil-mb-30">Project Motivation</h2>
+                            
+                            <p class="mil-mb-30">This project was created as part of <strong>CSE 530: Computer Architecture</strong> at Pennsylvania State University. The goal was to:</p>
+                            
+                            <ol class="mil-ordered-list mil-mb-30">
+                                <li><strong>Learn gem5</strong>: Understand how to use a production-grade architecture simulator</li>
+                                <li><strong>Design empirical experiments</strong>: Learn to structure a rigorous, reproducible evaluation</li>
+                                <li><strong>Understand trade-offs</strong>: Quantify the impact of CPU complexity, clock frequency, and memory bandwidth on application performance</li>
+                                <li><strong>Practice measurement</strong>: Extract meaningful metrics from architectural simulation and present findings clearly</li>
+                            </ol>
+
+                            <p class="mil-mb-30">The Quicksort algorithm was chosen because it:</p>
+                            <ul class="mil-feature-list mil-mb-30">
+                                <li><i class="fas fa-check mil-accent"></i> Is a well-known, classic algorithm with predictable characteristics</li>
+                                <li><i class="fas fa-check mil-accent"></i> Has moderate working-set size (80,000 integers ≈ 320 KB)</li>
+                                <li><i class="fas fa-check mil-accent"></i> Exhibits both CPU-intensive and memory-bound phases</li>
+                                <li><i class="fas fa-check mil-accent"></i> Allows controlled repeated execution (100 runs) for statistical stability</li>
+                            </ul>
+                        </section>
+
+                        <!-- Background Concepts -->
+                        <section id="background" class="mil-mb-60">
+                            <div class="mil-divider mil-mb-30"></div>
+                            <h2 class="mil-up mil-mb-30">Background Concepts</h2>
+                            
+                            <h3 class="mil-up mil-mb-30">What is gem5?</h3>
+                            <p class="mil-mb-30"><strong>gem5</strong> is an open-source, modular architectural simulator developed and maintained by computer architecture researchers and industry practitioners. It allows detailed cycle-level simulation of modern processors without building physical hardware.</p>
+
+                            <div class="mil-info-card mil-mb-30">
+                                <h4 class="mil-up mil-mb-15">Why Use a Simulator?</h4>
+                                <div class="mil-table-responsive">
+                                    <table class="mil-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Aspect</th>
+                                                <th>Real Hardware</th>
+                                                <th>Simulation</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Cost</strong></td>
+                                                <td>Expensive (millions $)</td>
+                                                <td>Free (open-source)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Development Time</strong></td>
+                                                <td>Years</td>
+                                                <td>Hours to weeks</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Observability</strong></td>
+                                                <td>Limited</td>
+                                                <td>Complete (every cycle, cache hit/miss)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Flexibility</strong></td>
+                                                <td>Fixed</td>
+                                                <td>Easily modify CPU, caches, memory</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Risk</strong></td>
+                                                <td>High (tapeout bets billions)</td>
+                                                <td>Low (experimental)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <h3 class="mil-up mil-mb-30">CPU Models Tested</h3>
+                            
+                            <div class="row mil-mb-30">
+                                <div class="col-md-6">
+                                    <div class="mil-feature-box mil-mb-30">
+                                        <h4 class="mil-up mil-mb-15"><i class="fas fa-microchip mil-accent"></i> X86TimingSimpleCPU</h4>
+                                        <p class="mil-mb-15">A <strong>simple in-order processor</strong> with realistic timing approximations:</p>
+                                        <ul class="mil-feature-list">
+                                            <li><i class="fas fa-angle-right mil-accent"></i> Functional in-order execution</li>
+                                            <li><i class="fas fa-angle-right mil-accent"></i> Single-cycle base latency for most ops</li>
+                                            <li><i class="fas fa-angle-right mil-accent"></i> Approximate memory latency</li>
+                                            <li><i class="fas fa-angle-right mil-accent"></i> Lower simulation overhead</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mil-feature-box mil-mb-30">
+                                        <h4 class="mil-up mil-mb-15"><i class="fas fa-microchip mil-accent"></i> X86MinorCPU</h4>
+                                        <p class="mil-mb-15">A <strong>detailed in-order processor</strong> with explicit pipeline stages:</p>
+                                        <ul class="mil-feature-list">
+                                            <li><i class="fas fa-angle-right mil-accent"></i> Explicit pipeline stages (5+ stages)</li>
+                                            <li><i class="fas fa-angle-right mil-accent"></i> Separate fetch, execute, and memory units</li>
+                                            <li><i class="fas fa-angle-right mil-accent"></i> Models structural hazards and pipeline stalls</li>
+                                            <li><i class="fas fa-angle-right mil-accent"></i> Cycle-accurate timing</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3 class="mil-up mil-mb-30">Memory Hierarchies</h3>
+                            <p class="mil-mb-30">Modern systems use <strong>multi-level caches</strong> to bridge the speed gap between CPU and main memory.</p>
+
+                            <div class="mil-info-card mil-mb-30">
+                                <h4 class="mil-up mil-mb-15">Cache Configuration</h4>
+                                <ul class="mil-feature-list">
+                                    <li><i class="fas fa-check mil-accent"></i> <strong>L1 I/D Cache:</strong> 32 KB each (instruction and data)</li>
+                                    <li><i class="fas fa-check mil-accent"></i> <strong>L2 Cache:</strong> 256 KB, shared</li>
+                                    <li><i class="fas fa-check mil-accent"></i> <strong>Memory Bandwidth:</strong> Varies by DRAM type</li>
+                                </ul>
+                            </div>
+
+                            <h4 class="mil-up mil-mb-15">DRAM Types Tested</h4>
+                            <div class="mil-table-responsive mil-mb-30">
+                                <table class="mil-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Memory Type</th>
+                                            <th>Frequency</th>
+                                            <th>Bandwidth</th>
+                                            <th>Use Case</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>DDR3_1600_8x8</strong></td>
+                                            <td>1600 MHz</td>
+                                            <td>~25.6 GB/s</td>
+                                            <td>Standard server/consumer</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>DDR3_2133_8x8</strong></td>
+                                            <td>2133 MHz</td>
+                                            <td>~34.1 GB/s</td>
+                                            <td>High-performance systems</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>LPDDR2_S4_1066_1x32</strong></td>
+                                            <td>1066 MHz</td>
+                                            <td>~17.1 GB/s</td>
+                                            <td>Mobile/embedded systems</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <!-- Experimental Design -->
+                        <section id="experimental-design" class="mil-mb-60">
+                            <div class="mil-divider mil-mb-30"></div>
+                            <h2 class="mil-up mil-mb-30">Experimental Design</h2>
+                            
+                            <h3 class="mil-up mil-mb-30">Research Questions</h3>
+                            <p class="mil-mb-30">This project answers:</p>
+                            <ol class="mil-ordered-list mil-mb-30">
+                                <li><strong>How does clock frequency affect performance?</strong> Does doubling the clock speed yield 2× speedup?</li>
+                                <li><strong>How sensitive is Quicksort to memory bandwidth?</strong> Does a faster DRAM significantly reduce execution time?</li>
+                                <li><strong>Does CPU pipeline complexity matter?</strong> How different are Minor vs. TimingSimple for this workload?</li>
+                                <li><strong>Can we achieve linear scaling?</strong> Or do bottlenecks (cache misses, memory latency) prevent ideal speedup?</li>
+                            </ol>
+
+                            <h3 class="mil-up mil-mb-30">Experimental Matrix</h3>
+                            <div class="mil-info-card mil-mb-30">
+                                <p class="mil-mb-15"><strong>Total Configurations:</strong> 2 CPUs × 6 Frequencies × 3 Memory Types = <span class="mil-accent">36 simulation runs</span></p>
+                                
+                                <div class="mil-table-responsive mil-mb-30">
+                                    <table class="mil-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Dimension</th>
+                                                <th>Options</th>
+                                                <th>Count</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>CPU Model</strong></td>
+                                                <td>X86TimingSimpleCPU, X86MinorCPU</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Clock Speed</strong></td>
+                                                <td>1.0, 1.2, 1.4, 1.6, 1.8, 2.0 GHz</td>
+                                                <td>6</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Memory Type</strong></td>
+                                                <td>DDR3_1600_8x8, DDR3_2133_8x8, LPDDR2_S4_1066_1x32</td>
+                                                <td>3</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <p>Each point is a <strong>complete simulation run</strong> in gem5's SE mode, measuring a fixed workload (100 Quicksort iterations on 80,000 elements).</p>
+                            </div>
+                        </section>
+
+                        <!-- Implementation Details -->
+                        <section id="implementation" class="mil-mb-60">
+                            <div class="mil-divider mil-mb-30"></div>
+                            <h2 class="mil-up mil-mb-30">Implementation Details</h2>
+                            
+                            <h3 class="mil-up mil-mb-30">Quicksort Workload</h3>
+                            <p class="mil-mb-30">The benchmark uses a <strong>classic in-place Quicksort</strong> implementation:</p>
+
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>void Quicksort(int a[], int l, int r) {
+    /* Partition around pivot a[(l+r)/2] */
+    int i = l, j = r;
+    int x = a[(l+r) / 2];
+    
+    do {
+        while (a[i] < x) i++;       /* Scan from left */
+        while (x < a[j]) j--;       /* Scan from right */
+        if (i <= j) {
+            /* Swap */
+            int w = a[i];
+            a[i] = a[j];
+            a[j] = w;
+            i++; j--;
+        }
+    } while (i <= j);
+    
+    /* Recurse on partitions */
+    if (l < j) Quicksort(a, l, j);
+    if (i < r) Quicksort(a, i, r);
+}</code></pre>
+                            </div>
+
+                            <div class="row mil-mb-30">
+                                <div class="col-md-6">
+                                    <div class="mil-info-card mil-mb-30">
+                                        <h4 class="mil-up mil-mb-15">Test Parameters</h4>
+                                        <ul class="mil-feature-list">
+                                            <li><i class="fas fa-check mil-accent"></i> <strong>Problem Size:</strong> 80,000 integers</li>
+                                            <li><i class="fas fa-check mil-accent"></i> <strong>Data Size:</strong> 320 KB</li>
+                                            <li><i class="fas fa-check mil-accent"></i> <strong>Iterations:</strong> 100 runs</li>
+                                            <li><i class="fas fa-check mil-accent"></i> <strong>Total Comparisons:</strong> ~800 million</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mil-info-card mil-mb-30">
+                                        <h4 class="mil-up mil-mb-15">Algorithm Characteristics</h4>
+                                        <ul class="mil-feature-list">
+                                            <li><i class="fas fa-check mil-accent"></i> <strong>Time Complexity:</strong> O(n log n) average</li>
+                                            <li><i class="fas fa-check mil-accent"></i> <strong>Space Complexity:</strong> O(log n) stack depth</li>
+                                            <li><i class="fas fa-check mil-accent"></i> <strong>Memory Pattern:</strong> Random access</li>
+                                            <li><i class="fas fa-check mil-accent"></i> <strong>Cache Behavior:</strong> Good temporal locality</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3 class="mil-up mil-mb-30">Instrumentation with m5ops</h3>
+                            <p class="mil-mb-30">The benchmark uses <strong>gem5 m5ops</strong> for precise measurement:</p>
+
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>#ifdef FRMWRK
+#include "gem5/m5ops.h"
+
+int main(int argc, char *argv[]) {
+    m5_reset_stats(0, 0);           /* Start counters */
+    
+    for (int i = 0; i < 100; i++) 
+        Quick(i);                   /* 100 iterations */
+    
+    m5_dump_stats(0, 0);            /* Dump counters */
+}
+#endif</code></pre>
+                            </div>
+
+                            <div class="mil-info-card mil-mb-30">
+                                <h4 class="mil-up mil-mb-15">Why Instrumentation?</h4>
+                                <p class="mil-mb-15">Without <code>m5_reset_stats</code>/<code>m5_dump_stats</code>, statistics include memory initialization overhead, function call setup, and I/O operations.</p>
+                                <p>With instrumentation, we measure <strong>only the core algorithm</strong>, eliminating noise and improving statistical quality.</p>
+                            </div>
+                        </section>
+
+                        <!-- Results & Analysis -->
+                        <section id="results" class="mil-mb-60">
+                            <div class="mil-divider mil-mb-30"></div>
+                            <h2 class="mil-up mil-mb-30">Results & Analysis</h2>
+                            
+                            <h3 class="mil-up mil-mb-30">X86MinorCPU Performance</h3>
+                            <div class="mil-table-responsive mil-mb-30">
+                                <table class="mil-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Memory Model</th>
+                                            <th>1.0 GHz</th>
+                                            <th>1.2 GHz</th>
+                                            <th>1.4 GHz</th>
+                                            <th>1.6 GHz</th>
+                                            <th>1.8 GHz</th>
+                                            <th>2.0 GHz</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>DDR3_1600_8x8</strong></td>
+                                            <td>12.699 s</td>
+                                            <td>10.587 s</td>
+                                            <td>9.081 s</td>
+                                            <td>7.957 s</td>
+                                            <td>7.085 s</td>
+                                            <td>6.374 s</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>DDR3_2133_8x8</strong></td>
+                                            <td>12.698 s</td>
+                                            <td>10.584 s</td>
+                                            <td>9.080 s</td>
+                                            <td>7.955 s</td>
+                                            <td>7.081 s</td>
+                                            <td>6.373 s</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>LPDDR2_S4_1066_1x32</strong></td>
+                                            <td>12.714 s</td>
+                                            <td>10.603 s</td>
+                                            <td>9.100 s</td>
+                                            <td>7.971 s</td>
+                                            <td>7.101 s</td>
+                                            <td>6.390 s</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h3 class="mil-up mil-mb-30">X86TimingSimpleCPU Performance</h3>
+                            <div class="mil-table-responsive mil-mb-30">
+                                <table class="mil-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Memory Model</th>
+                                            <th>1.0 GHz</th>
+                                            <th>1.2 GHz</th>
+                                            <th>1.4 GHz</th>
+                                            <th>1.6 GHz</th>
+                                            <th>1.8 GHz</th>
+                                            <th>2.0 GHz</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>DDR3_1600_8x8</strong></td>
+                                            <td>12.889 s</td>
+                                            <td>10.587 s</td>
+                                            <td>9.081 s</td>
+                                            <td>7.957 s</td>
+                                            <td>7.085 s</td>
+                                            <td>6.374 s</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>DDR3_2133_8x8</strong></td>
+                                            <td>12.698 s</td>
+                                            <td>10.584 s</td>
+                                            <td>9.080 s</td>
+                                            <td>7.955 s</td>
+                                            <td>7.081 s</td>
+                                            <td>6.373 s</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>LPDDR2_S4_1066_1x32</strong></td>
+                                            <td>12.714 s</td>
+                                            <td>10.603 s</td>
+                                            <td>9.100 s</td>
+                                            <td>7.971 s</td>
+                                            <td>7.101 s</td>
+                                            <td>6.390 s</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <!-- Key Findings -->
+                        <section id="key-findings" class="mil-mb-60">
+                            <div class="mil-divider mil-mb-30"></div>
+                            <h2 class="mil-up mil-mb-30">Key Findings</h2>
+                            
+                            <!-- Finding 1 -->
+                            <div class="mil-finding-card mil-mb-30">
+                                <h3 class="mil-up mil-mb-15"><i class="fas fa-bolt mil-accent"></i> Finding 1: Clock Scaling is Nearly Linear</h3>
+                                <p class="mil-mb-15">The most striking observation: <strong>doubling the clock speed yields approximately 2× speedup</strong>.</p>
+                                
+                                <div class="mil-evidence mil-mb-15">
+                                    <h4 class="mil-up mil-mb-15">Evidence:</h4>
+                                    <ul class="mil-feature-list">
+                                        <li><i class="fas fa-check mil-accent"></i> <strong>1.0 GHz → 2.0 GHz:</strong> ~12.7s → 6.37s = <span class="mil-accent">1.99× speedup</span></li>
+                                        <li><i class="fas fa-check mil-accent"></i> <strong>1.0 GHz → 1.2 GHz:</strong> 12.7s → 10.59s = <span class="mil-accent">1.20× speedup</span></li>
+                                        <li><i class="fas fa-check mil-accent"></i> <strong>1.6 GHz → 2.0 GHz:</strong> 7.96s → 6.37s = <span class="mil-accent">1.25× speedup</span></li>
+                                    </ul>
+                                </div>
+
+                                <div class="mil-explanation">
+                                    <h4 class="mil-up mil-mb-15">Why?</h4>
+                                    <p>This linear relationship holds when <strong>the instruction count is constant</strong> and <strong>memory is not the primary bottleneck</strong>. The L1 and L2 caches handle most memory requests, with pipeline bubbles due to memory stalls being minimal. The CPU, not memory, is the bottleneck.</p>
+                                </div>
+                            </div>
+
+                            <!-- Finding 2 -->
+                            <div class="mil-finding-card mil-mb-30">
+                                <h3 class="mil-up mil-mb-15"><i class="fas fa-memory mil-accent"></i> Finding 2: Memory Bandwidth Has Minimal Impact</h3>
+                                <p class="mil-mb-15">Despite testing three very different memory types, performance differences are <strong>tiny</strong>:</p>
+                                
+                                <div class="mil-table-responsive mil-mb-15">
+                                    <table class="mil-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Memory Type</th>
+                                                <th>Relative Performance</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>DDR3_1600_8x8</strong></td>
+                                                <td>Baseline (100%)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>DDR3_2133_8x8</strong> (+33% bandwidth)</td>
+                                                <td>99.97% (negligible)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>LPDDR2_S4_1066_1x32</strong> (-33% bandwidth)</td>
+                                                <td>99.75% (0.25% slower)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="mil-explanation">
+                                    <h4 class="mil-up mil-mb-15">Why?</h4>
+                                    <ul class="mil-feature-list">
+                                        <li><i class="fas fa-check mil-accent"></i> <strong>Working Set Fits in Cache:</strong> 320 KB data array is well-served by 32 KB L1 + 256 KB L2</li>
+                                        <li><i class="fas fa-check mil-accent"></i> <strong>Temporal Locality:</strong> Quicksort repeatedly accesses the same elements during partitioning</li>
+                                        <li><i class="fas fa-check mil-accent"></i> <strong>Cache Hierarchy Dominance:</strong> Memory bandwidth only matters when data misses all caches, which is rare here</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Finding 3 -->
+                            <div class="mil-finding-card mil-mb-30">
+                                <h3 class="mil-up mil-mb-15"><i class="fas fa-microchip mil-accent"></i> Finding 3: CPU Model Complexity Doesn't Matter</h3>
+                                <p class="mil-mb-15">Minor vs. TimingSimple performance is <strong>nearly identical</strong>:</p>
+                                
+                                <div class="mil-evidence mil-mb-15">
+                                    <h4 class="mil-up mil-mb-15">Comparison (at 1.0 GHz, DDR3_1600_8x8):</h4>
+                                    <ul class="mil-feature-list">
+                                        <li><i class="fas fa-check mil-accent"></i> Minor: 12.698 s</li>
+                                        <li><i class="fas fa-check mil-accent"></i> TimingSimple: 12.889 s</li>
+                                        <li><i class="fas fa-check mil-accent"></i> <strong>Difference: 0.15%</strong></li>
+                                    </ul>
+                                </div>
+
+                                <div class="mil-explanation">
+                                    <h4 class="mil-up mil-mb-15">Why?</h4>
+                                    <ol class="mil-ordered-list">
+                                        <li><strong>Both are in-order:</strong> Neither superscalar nor out-of-order, so instruction-level parallelism potential is limited</li>
+                                        <li><strong>Memory dominates:</strong> Cache hits/misses dominate cycles, not pipeline structure</li>
+                                        <li><strong>Pipeline Stalls Align:</strong> Both models stall identically on cache misses</li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <!-- Finding 4 -->
+                            <div class="mil-finding-card mil-mb-30">
+                                <h3 class="mil-up mil-mb-15"><i class="fas fa-chart-line mil-accent"></i> Finding 4: Instruction Count Remains Stable</h3>
+                                <p class="mil-mb-15">A subtle finding confirmed by examining cycle counts:</p>
+                                
+                                <div class="mil-code-block mil-mb-15">
+                                    <pre><code>simCycles_at_1.0_GHz  ≈ 12.7 × 10⁹ cycles
+simCycles_at_2.0_GHz  ≈ 12.7 × 10⁹ cycles</code></pre>
+                                </div>
+
+                                <div class="mil-explanation">
+                                    <p>This confirms: The instruction count (and cycle count at the ISA level) is <strong>invariant</strong>—the algorithm does the same work regardless of clock speed. Only the <em>wall-clock time</em> decreases (because cycles are shorter).</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Lessons & Insights -->
+                        <section id="lessons" class="mil-mb-60">
+                            <div class="mil-divider mil-mb-30"></div>
+                            <h2 class="mil-up mil-mb-30">Lessons & Insights</h2>
+                            
+                            <div class="row mil-mb-30">
+                                <div class="col-md-6">
+                                    <div class="mil-insight-card mil-mb-30">
+                                        <h3 class="mil-up mil-mb-15"><i class="fas fa-graduation-cap mil-accent"></i> For Computer Architects</h3>
+                                        
+                                        <h4 class="mil-up mil-mb-15">Cache Hierarchy Matters More Than Raw Bandwidth</h4>
+                                        <p class="mil-mb-15">The dominance of L1/L2 caches in hiding memory latency means that <strong>careful cache design</strong> (size, associativity, replacement policy) has greater impact than memory speed for well-locality code.</p>
+                                        
+                                        <h4 class="mil-up mil-mb-15">Clock Scaling Remains Powerful</h4>
+                                        <p class="mil-mb-15">Nearly perfect 2× speedup from 2× frequency increase demonstrates that <strong>higher clocks still drive performance</strong>—until power/heat limits are hit.</p>
+                                        
+                                        <h4 class="mil-up mil-mb-15">Pipeline Complexity is a Design Trade-off</h4>
+                                        <p>Minor's detailed pipeline doesn't yield advantage here, but for superscalar/out-of-order workloads, it's essential. The cost is higher power and verification effort.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mil-insight-card mil-mb-30">
+                                        <h3 class="mil-up mil-mb-15"><i class="fas fa-code mil-accent"></i> For Software Engineers</h3>
+                                        
+                                        <h4 class="mil-up mil-mb-15">Algorithmic Choice Dominates</h4>
+                                        <p class="mil-mb-15">Memory bandwidth choice has minimal impact. <strong>Algorithmic efficiency (O(n log n) vs. O(n²)) matters far more</strong> than hardware specifics for moderately-sized data.</p>
+                                        
+                                        <h4 class="mil-up mil-mb-15">Cache Friendliness is Practical</h4>
+                                        <p class="mil-mb-15">Even though Quicksort isn't the cache-optimal sorting algorithm, it runs efficiently on realistic caches. <strong>Simple algorithms with temporal locality often win</strong> in practice.</p>
+                                        
+                                        <h4 class="mil-up mil-mb-15">Measurement Beats Intuition</h4>
+                                        <p>Without simulation, predicting speedup from frequency scaling or memory bandwidth intuitively is error-prone. <strong>Precise measurement reveals ground truth.</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Reproducibility -->
+                        <section id="reproducibility" class="mil-mb-60">
+                            <div class="mil-divider mil-mb-30"></div>
+                            <h2 class="mil-up mil-mb-30">Reproducibility & Extensibility</h2>
+                            
+                            <h3 class="mil-up mil-mb-30">How to Reproduce</h3>
+                            
+                            <div class="mil-info-card mil-mb-30">
+                                <h4 class="mil-up mil-mb-15">Prerequisites</h4>
+                                <ul class="mil-feature-list">
+                                    <li><i class="fas fa-check mil-accent"></i> <strong>gem5</strong> (version ~May 2024 snapshot)</li>
+                                    <li><i class="fas fa-check mil-accent"></i> <strong>GCC</strong> or <strong>Clang</strong> (for compilation)</li>
+                                    <li><i class="fas fa-check mil-accent"></i> <strong>Python</strong> (for data analysis scripts)</li>
+                                    <li><i class="fas fa-check mil-accent"></i> <strong>Matplotlib</strong> (for visualization)</li>
+                                </ul>
+                            </div>
+
+                            <h4 class="mil-up mil-mb-15">Build & Run Example</h4>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code># Step 1: Navigate to a simulation directory
+cd quicksort/X86MinorCPU/DDR3_1600_8x8/1.2GHz
+
+# Step 2: Compile quicksort with gem5 m5ops
+make all
+
+# Step 3: Run gem5 simulation
+/path/to/gem5/build/X86/gem5.opt \
+  /path/to/gem5/configs/example/se.py \
+  --cmd=./a.out --options="100 100" \
+  --cpu-type=X86MinorCPU \
+  --caches --l2cache \
+  --l1d_size=32768 --l1i_size=32768 \
+  --l2_size=262144 \
+  --cpu-clock="1.2GHz" \
+  --mem-type=DDR3_1600_8x8
+
+# Step 4: Extract results
+grep "^simSeconds" m5out/stats.txt
+grep "^system.cpu.numCycles" m5out/stats.txt</code></pre>
+                            </div>
+
+                            <h3 class="mil-up mil-mb-30">How to Extend</h3>
+                            <p class="mil-mb-15">The experiment framework is easily extensible:</p>
+                            
+                            <div class="row mil-mb-30">
+                                <div class="col-md-4">
+                                    <div class="mil-extension-card mil-mb-30">
+                                        <h4 class="mil-up mil-mb-15"><i class="fas fa-plus mil-accent"></i> Add a New CPU Model</h4>
+                                        <p>Test superscalar or out-of-order CPUs (e.g., X86O3CPU) to see if pipeline complexity matters for more complex workloads.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mil-extension-card mil-mb-30">
+                                        <h4 class="mil-up mil-mb-15"><i class="fas fa-plus mil-accent"></i> Add a New Memory Type</h4>
+                                        <p>Test newer memory technologies (e.g., GDDR6, HBM) or configure custom memory parameters in gem5.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mil-extension-card mil-mb-30">
+                                        <h4 class="mil-up mil-mb-15"><i class="fas fa-plus mil-accent"></i> Change the Workload</h4>
+                                        <p>Replace Quicksort with other algorithms (heapsort, matrix multiply) to observe different memory access patterns.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Conclusion -->
+                        <section id="conclusion" class="mil-mb-60">
+                            <div class="mil-divider mil-mb-30"></div>
+                            <h2 class="mil-up mil-mb-30">Conclusion</h2>
+                            
+                            <p class="mil-mb-30">This project demonstrates a principled approach to computer architecture evaluation using simulation. By carefully designing an experiment, implementing a representative workload, and interpreting results through the lens of architectural understanding, we gained actionable insights:</p>
+
+                            <ul class="mil-feature-list mil-mb-30">
+                                <li><i class="fas fa-check-circle mil-accent"></i> <strong>Clock frequency remains a powerful performance lever</strong> for well-designed systems</li>
+                                <li><i class="fas fa-check-circle mil-accent"></i> <strong>Memory bandwidth matters less than cache design</strong> for workloads with good locality</li>
+                                <li><i class="fas fa-check-circle mil-accent"></i> <strong>CPU pipeline complexity isn't always necessary</strong>—simpler designs suffice when memory isn't the bottleneck</li>
+                            </ul>
+
+                            <p>These findings, while demonstrated on Quicksort in gem5, transfer to broader systems and inform real architectural decisions made by researchers and industry practitioners every day.</p>
+                        </section>
+
+                    </div>
+                    <!-- End Article Content -->
+
+                    <!-- Back to Projects -->
+                    <div class="mil-pagination-panel mil-mb-60">
+                        <a href="../../projects.html" class="mil-button mil-type-2">Back to Projects</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- onepage wrapper end -->
+
+    <!-- jquery js -->
+    <script src="../../js/plugins/jquery.min.js"></script>
+    <!-- magnific-popup js -->
+    <script src="../../js/plugins/magnific-popup.js"></script>
+    <!-- swiper js -->
+    <script src="../../js/plugins/swiper.min.js"></script>
+    <!-- isotope js -->
+    <script src="../../js/plugins/isotope.min.js"></script>
+
+    <!-- treto js -->
+    <script src="../../js/main.js"></script>
+</body>
+
+</html>
+

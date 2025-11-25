@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>CPU Scheduling Simulator - Vedant Misra</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="author" content="Vedant Misra" />
+    <meta name="description" content="Discrete event simulation framework implementing FCFS, LCFS, SJF, and MLFQ CPU scheduling algorithms">
+    <meta name="keywords" content="CPU scheduling, operating systems, discrete event simulation, C programming, systems programming, FCFS, LCFS, SJF, MLFQ">
+
+    <!-- bootstrap grid css -->
+    <link rel="stylesheet" href="../../css/plugins/bootstrap-grid.css" type="text/css" media="all">
+    <!-- swiper css -->
+    <link rel="stylesheet" href="../../css/plugins/swiper.min.css" type="text/css" media="all">
+    <!-- magnific-popup css -->
+    <link rel="stylesheet" href="../../css/plugins/magnific-popup.css" type="text/css" media="all">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="../../fonts/font-awesome/css/all.min.css" type="text/css" media="all" />
+
+    <!-- treto css -->
+    <link rel="stylesheet" href="../../css/style.css" type="text/css" media="all">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon">
+
+</head>
+
+<body>
+
+    <!-- frame -->
+    <div class="mil-frame">
+
+        <!-- top panel -->
+        <div class="mil-top-panel">
+            <a href="../../index.html" class="mil-logo">
+                <img src="../../img/logo-black-orng.png" height="80px" width="auto" alt="logo">
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="../../index.html">Home</a>
+                    </li>
+                    <li class="mil-active">
+                        <a href="../../projects.html">Projects</a>
+                    </li>
+                    <li>
+                        <a href="../../pages/blog.html">Blog</a>
+                    </li>
+                    <li>
+                        <a href="../../pages/contact.html">Contact Me</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="mil-menu-btn">
+                <span></span>
+            </div>
+        </div>
+        <!-- top panel end -->
+
+        <!-- social panel -->
+        <div class="mil-social-panel">
+            <ul>
+                <li>
+                    <a href="https://www.linkedin.com/in/ved-dev/">LinkedIn</a>
+                </li>
+                <li>
+                    <a href="https://github.com/this-ved-dev">GitHub</a>
+                </li>
+            </ul>
+        </div>
+        <!-- social panel -->
+
+        <!-- footer -->
+        <div class="mil-footer">
+            <p class="mil-upper"><span class="mil-accent">Vedant Misra.</span></p>
+        </div>
+        <!-- footer end-->
+
+    </div>
+    <!-- frame end -->
+
+    <!-- onepage wrapper -->
+    <div class="mil-onepage">
+        <div class="mil-page">
+
+            <div class="container">
+
+                <!-- Hero Section -->
+                <div class="mil-top-banner mil-text-center">
+                    <p class="mil-upper mil-mb-30"><span class="mil-accent">Systems Programming</span></p>
+                    <h1 class="mil-up mil-mb-30">Building a CPU Scheduling Simulator</h1>
+                    <h3 class="mil-mb-30">A Deep Dive into Operating Systems</h3>
+                    <p class="mil-mb-30"><strong>Author:</strong> Vedant Misra</p>
+                    <p class="mil-mb-30"><strong>Institution:</strong> Pennsylvania State University</p>
+                    <p class="mil-mb-30"><strong>Course:</strong> CMPSC 473 - Operating Systems</p>
+                    <p><strong>Project Duration:</strong> Fall 2024</p>
+                </div>
+
+                <!-- Executive Summary Card -->
+                <div class="mil-project mil-mb-60">
+                    <div class="mil-divider"></div>
+                    
+                    <div class="mil-executive-summary mil-mb-60">
+                        <h2 class="mil-up mil-mb-30">Project Overview</h2>
+                        
+                        <div class="row mil-mb-30">
+                            <div class="col-lg-12">
+                                <p class="mil-mb-30">A comprehensive discrete event simulation framework for implementing and comparing various CPU scheduling algorithms including FCFS, LCFS, SJF, and MLFQ. This project demonstrates deep understanding of operating systems concepts, event-driven programming, and performance analysis.</p>
+                            </div>
+                        </div>
+
+                        <!-- Key Features -->
+                        <div class="row mil-mb-30">
+                            <div class="col-lg-12">
+                                <h3 class="mil-up mil-mb-30">Key Achievements</h3>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="mil-feature-list mil-mb-30">
+                                    <li><i class="fas fa-check mil-accent"></i> Implemented 4 scheduling algorithms (FCFS, LCFS, SJF, MLFQ)</li>
+                                    <li><i class="fas fa-check mil-accent"></i> Built discrete event simulation engine</li>
+                                    <li><i class="fas fa-check mil-accent"></i> Generic linked list data structure with sorting</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="mil-feature-list mil-mb-30">
+                                    <li><i class="fas fa-check mil-accent"></i> Event-driven callback architecture</li>
+                                    <li><i class="fas fa-check mil-accent"></i> Comprehensive testing with 40 test cases</li>
+                                    <li><i class="fas fa-check mil-accent"></i> Performance metrics and analysis</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Tech Stack -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h3 class="mil-up mil-mb-30">Technologies Used</h3>
+                                <div class="mil-tech-tags">
+                                    <span class="mil-tech-tag">C (C11)</span>
+                                    <span class="mil-tech-tag">Make</span>
+                                    <span class="mil-tech-tag">Python Testing</span>
+                                    <span class="mil-tech-tag">Discrete Event Simulation</span>
+                                    <span class="mil-tech-tag">Event-Driven Programming</span>
+                                    <span class="mil-tech-tag">Data Structures</span>
+                                    <span class="mil-tech-tag">Algorithm Design</span>
+                                    <span class="mil-tech-tag">Linux/Unix</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table of Contents -->
+                    <div class="mil-divider"></div>
+                    <div class="mil-toc mil-mb-60">
+                        <h3 class="mil-up mil-mb-30">Table of Contents</h3>
+                        <ol class="mil-toc-list">
+                            <li><a href="#introduction">Introduction</a></li>
+                            <li><a href="#background">Background: CPU Scheduling in Operating Systems</a></li>
+                            <li><a href="#des">Discrete Event Simulation: The Foundation</a></li>
+                            <li><a href="#architecture">Project Architecture</a></li>
+                            <li><a href="#data-structures">Data Structures: Building a Generic Linked List</a></li>
+                            <li><a href="#algorithms">Scheduling Algorithms Implementation</a></li>
+                            <li><a href="#event-driven">Event-Driven Programming Model</a></li>
+                            <li><a href="#testing">Testing and Validation</a></li>
+                            <li><a href="#insights">Key Insights and Learning Outcomes</a></li>
+                            <li><a href="#conclusion">Conclusion</a></li>
+                        </ol>
+                    </div>
+
+                    <!-- Main Article Content -->
+                    <div class="mil-article-content">
+
+                        <!-- Section 1: Introduction -->
+                        <div id="introduction" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">1. Introduction</h2>
+                            
+                            <p class="mil-mb-30">In modern operating systems, the CPU scheduler is one of the most critical components, responsible for deciding which process gets to execute on the CPU at any given time. This project implements a discrete event simulator that models different CPU scheduling policies, allowing us to understand their behavior, trade-offs, and performance characteristics.</p>
+
+                            <h3 class="mil-mb-30">Project Objectives</h3>
+                            <ul class="mil-article-list mil-mb-30">
+                                <li>Implement a discrete event simulation framework for CPU scheduling</li>
+                                <li>Build four different scheduling algorithms: FCFS, LCFS, SJF, and MLFQ</li>
+                                <li>Develop a generic linked list data structure to manage job queues</li>
+                                <li>Compare scheduling policies based on job completion times</li>
+                                <li>Master event-driven programming paradigms</li>
+                            </ul>
+                        </div>
+
+                        <!-- Section 2: Background -->
+                        <div id="background" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">2. Background: CPU Scheduling in Operating Systems</h2>
+
+                            <h3 class="mil-mb-30">What is CPU Scheduling?</h3>
+                            <p class="mil-mb-30">CPU scheduling is the process by which an operating system decides which process in the ready queue gets access to the CPU. The scheduler is invoked whenever:</p>
+                            
+                            <ol class="mil-article-list mil-mb-30">
+                                <li>A process switches from running to waiting state</li>
+                                <li>A process switches from running to ready state (preemption)</li>
+                                <li>A process switches from waiting to ready</li>
+                                <li>A process terminates</li>
+                            </ol>
+
+                            <h3 class="mil-mb-30">Key Scheduling Metrics</h3>
+                            <p class="mil-mb-15">Understanding scheduling requires familiarity with several key metrics:</p>
+                            
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>┌─────────────────────────────────────────────────────────┐
+│  Key Performance Metrics                                │
+├─────────────────────────────────────────────────────────┤
+│  • Turnaround Time = Completion Time - Arrival Time     │
+│  • Response Time = First Run Time - Arrival Time        │
+│  • Waiting Time = Turnaround Time - Burst Time          │
+│  • Throughput = Number of processes completed per unit  │
+│  • CPU Utilization = % of time CPU is busy              │
+└─────────────────────────────────────────────────────────┘</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">The Scheduling Challenge</h3>
+                            <p class="mil-mb-15">The ideal scheduler would:</p>
+                            <ul class="mil-article-list mil-mb-30">
+                                <li>Maximize CPU utilization (keep CPU busy)</li>
+                                <li>Maximize throughput (complete more jobs)</li>
+                                <li>Minimize turnaround time (jobs finish quickly)</li>
+                                <li>Minimize waiting time (jobs don't wait long)</li>
+                                <li>Ensure fairness (all jobs get a chance)</li>
+                            </ul>
+                            <p class="mil-mb-30">However, these goals often <strong>conflict</strong> with each other, making scheduling a fascinating optimization problem.</p>
+                        </div>
+
+                        <!-- Section 3: Discrete Event Simulation -->
+                        <div id="des" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">3. Discrete Event Simulation: The Foundation</h2>
+
+                            <h3 class="mil-mb-30">What is Discrete Event Simulation (DES)?</h3>
+                            <p class="mil-mb-30">Rather than continuously simulating every nanosecond of time, DES models a system as a sequence of discrete events. Time "jumps" from one event to the next.</p>
+
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>Timeline Comparison:
+
+Continuous Simulation:
+├─┼─┼─┼─┼─┼─┼─┼─┼─┼─┼─┼─┼─┼─┼─┼─┼─┼─┤
+0  1  2  3  4  5  6  7  8  9  ...
+(Simulates every time unit)
+
+Discrete Event Simulation:
+├───────┼────┼──────────┼───────┼─────┤
+0       7    11         17      23    30
+  Event1  E2    Event3     E4    E5
+(Only simulates when events occur)</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">Core Components of Our Simulator</h3>
+                            <p class="mil-mb-15">Our discrete event simulator consists of:</p>
+                            <ol class="mil-article-list mil-mb-30">
+                                <li><strong>Event Queue:</strong> A sorted list of future events</li>
+                                <li><strong>Simulator Clock:</strong> Tracks current simulated time</li>
+                                <li><strong>Event Types:</strong> Job arrivals and job completions</li>
+                                <li><strong>Callbacks:</strong> Functions executed when events occur</li>
+                            </ol>
+
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>// Event structure
+typedef struct {
+    uint64_t timestamp;        // When the event occurs
+    event_type_t type;         // ARRIVAL or COMPLETION
+    uint64_t id;               // Unique event identifier
+    event_callback callback;   // Function to call
+    void* callbackData;        // Data passed to callback
+} event_t;</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">How the Simulator Works</h3>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>┌─────────────────────────────────────────────────────────┐
+│  Discrete Event Simulation Loop                         │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  1. Initialize event queue with job arrivals            │
+│  2. While event queue is not empty:                     │
+│     a. Get earliest event from queue                    │
+│     b. Advance simulation time to event time            │
+│     c. Execute event callback                           │
+│     d. Remove event from queue                          │
+│  3. Simulation complete                                 │
+│                                                          │
+└─────────────────────────────────────────────────────────┘</code></pre>
+                            </div>
+
+                            <p class="mil-mb-30"><strong>Key Insight:</strong> Events can schedule new events! For example, a job <strong>arrival</strong> event schedules a job <strong>completion</strong> event, and a job <strong>completion</strong> event may schedule another job <strong>completion</strong> event for the next job.</p>
+                        </div>
+
+                        <!-- Section 4: Project Architecture -->
+                        <div id="architecture" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">4. Project Architecture</h2>
+
+                            <h3 class="mil-mb-30">System Overview</h3>
+                            <p class="mil-mb-30">The project is structured with clear separation of concerns:</p>
+
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>┌─────────────────────────────────────────────────────────────┐
+│                     System Architecture                      │
+└─────────────────────────────────────────────────────────────┘
+
+┌──────────────┐      ┌──────────────┐      ┌──────────────┐
+│  Trace File  │─────▶│  Simulator   │─────▶│ Output File  │
+│  (Input)     │      │   Engine     │      │  (Results)   │
+└──────────────┘      └──────┬───────┘      └──────────────┘
+                             │
+                    ┌────────┴────────┐
+                    │                 │
+            ┌───────▼────────┐ ┌─────▼──────────┐
+            │   Scheduler    │ │  Linked List   │
+            │   (Policy)     │ │ (Job Queue)    │
+            └────────────────┘ └────────────────┘
+                    │
+        ┌───────────┼───────────┬───────────┐
+        │           │           │           │
+    ┌───▼───┐  ┌───▼───┐  ┌───▼───┐  ┌───▼───┐
+    │ FCFS  │  │ LCFS  │  │  SJF  │  │ MLFQ  │
+    └───────┘  └───────┘  └───────┘  └───────┘</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">File Organization</h3>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>project/
+├── Core Simulator
+│   ├── simulator.h/c          # Event queue management
+│   ├── scheduler.h/c          # Scheduler interface
+│   └── main.c                 # Entry point
+│
+├── Data Structures
+│   ├── linked_list.h/c        # Generic linked list
+│   └── job.h                  # Job data structure
+│
+├── Scheduling Policies (My Implementation)
+│   ├── schedulerFCFS.c        # First-Come-First-Served
+│   ├── schedulerLCFS.c        # Last-Come-First-Served
+│   ├── schedulerSJF.c         # Shortest Job First
+│   └── schedulerMLFQ.c        # Multi-Level Feedback Queue
+│
+├── Testing
+│   ├── traces/                # Test cases
+│   ├── grade.py               # Automated testing
+│   └── linked_list_test.c     # Unit tests
+│
+└── Build System
+    └── Makefile</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">Module Responsibilities</h3>
+                            <div class="row mil-mb-30">
+                                <div class="col-md-6">
+                                    <ul class="mil-article-list mil-mb-30">
+                                        <li><strong>Simulator:</strong> Manages event queue, advances time, invokes callbacks</li>
+                                        <li><strong>Scheduler:</strong> Defines interface for scheduling policies</li>
+                                        <li><strong>Linked List:</strong> Provides generic queue/priority queue functionality</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="mil-article-list mil-mb-30">
+                                        <li><strong>Job:</strong> Encapsulates job information (arrival, duration, ID)</li>
+                                        <li><strong>Policy Implementations:</strong> Implement specific scheduling algorithms</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 5: Data Structures -->
+                        <div id="data-structures" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">5. Data Structures: Building a Generic Linked List</h2>
+
+                            <h3 class="mil-mb-30">Why a Generic Linked List?</h3>
+                            <p class="mil-mb-15">A generic linked list is the perfect data structure for this project because:</p>
+                            <ol class="mil-article-list mil-mb-30">
+                                <li><strong>Dynamic Size:</strong> Job queues grow and shrink dynamically</li>
+                                <li><strong>Efficient Operations:</strong> O(1) insertions at head/tail</li>
+                                <li><strong>Sorted Support:</strong> Can maintain jobs in sorted order</li>
+                                <li><strong>Type Agnostic:</strong> Works with any data type via void* pointers</li>
+                            </ol>
+
+                            <h3 class="mil-mb-30">Design Philosophy</h3>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>// Node structure - doubly linked for bidirectional traversal
+typedef struct list_node {
+    struct list_node* next;    // Next node in list
+    struct list_node* prev;    // Previous node in list
+    void* data;                // Generic data pointer
+} list_node_t;
+
+// List structure - maintains head, tail, and metadata
+typedef struct {
+    list_node_t* head;         // First node
+    list_node_t* tail;         // Last node
+    size_t count;              // Number of nodes
+    compare_fn compare;        // Comparison function for sorting
+} list_t;</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">Comparison Functions for Sorted Insertion</h3>
+                            <p class="mil-mb-30">The list can maintain sorted order using a user-defined comparison function:</p>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>// Comparison function type
+// Returns: -1 if data1 < data2, 0 if equal, 1 if data1 > data2
+typedef int (*compare_fn)(void* data1, void* data2);
+
+// Example: Sort jobs by remaining time (for SJF)
+static int compareJobs(void* a, void* b) {
+    job_t* job1 = (job_t*)a;
+    job_t* job2 = (job_t*)b;
+    
+    uint64_t time1 = jobGetRemainingTime(job1);
+    uint64_t time2 = jobGetRemainingTime(job2);
+    
+    if (time1 == time2) {
+        // Tie-breaker: use job ID
+        uint64_t id1 = jobGetId(job1);
+        uint64_t id2 = jobGetId(job2);
+        return (id1 < id2) ? -1 : (id1 > id2) ? 1 : 0;
+    }
+    
+    return (time1 < time2) ? -1 : 1;
+}</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">Flexible Insertion Modes</h3>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>Unsorted Insertion (compare = NULL):
+Always insert at head → O(1) operation
+
+   HEAD                              TAIL
+    ↓                                 ↓
+   [New] ←→ [Node1] ←→ [Node2] ←→ [Node3]
+
+Sorted Insertion (compare provided):
+Insert in correct position → O(n) operation (acceptable for this project)
+
+   HEAD                              TAIL
+    ↓                                 ↓
+   [Node1] ←→ [New] ←→ [Node2] ←→ [Node3]
+            (inserted here based on compare function)</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Section 6: Scheduling Algorithms -->
+                        <div id="algorithms" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">6. Scheduling Algorithms Implementation</h2>
+
+                            <h3 class="mil-mb-30">1. First-Come-First-Served (FCFS)</h3>
+                            <p class="mil-mb-15"><strong>Algorithm Overview:</strong></p>
+                            <ul class="mil-article-list mil-mb-30">
+                                <li>Jobs are executed in the order they arrive</li>
+                                <li><strong>Non-preemptive:</strong> once a job starts, it runs to completion</li>
+                                <li><strong>Fair</strong> but can suffer from the <strong>convoy effect</strong></li>
+                            </ul>
+
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>Timeline Example:
+
+Job Arrivals:  J1(t=0,dur=3), J2(t=1,dur=1), J3(t=2,dur=2)
+
+CPU: [====J1====][=J2=][==J3==]
+Time: 0    1    2    3    4    5    6
+
+Completion Times: J1→3, J2→4, J3→6
+Avg Turnaround: ((3-0)+(4-1)+(6-2))/3 = 3.67</code></pre>
+                            </div>
+
+                            <p class="mil-mb-15"><strong>The Convoy Effect:</strong></p>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>Scenario: Short jobs arrive after a long job
+
+Jobs: J1(dur=10), J2(dur=1), J3(dur=1), J4(dur=1)
+
+CPU: [==========J1==========][J2][J3][J4]
+Time: 0                     10  11  12  13
+
+J2, J3, J4 must wait for J1 to complete!
+Average waiting time = (0+10+11+12)/4 = 8.25 units</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">2. Last-Come-First-Served (LCFS)</h3>
+                            <p class="mil-mb-15"><strong>Algorithm Overview:</strong></p>
+                            <ul class="mil-article-list mil-mb-30">
+                                <li><strong>Most recently arrived</strong> job executes first</li>
+                                <li><strong>Non-preemptive:</strong> once started, runs to completion</li>
+                                <li>Acts like a <strong>stack</strong> (LIFO)</li>
+                            </ul>
+
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>Timeline Example:
+
+Job Arrivals:  J1(t=0,dur=3), J2(t=1,dur=1), J3(t=2,dur=2)
+
+CPU: [====J1====][=J3=][==J2==]
+Time: 0    1    2    3    4    5    6
+
+Note: J3 arrived last (at t=2) but runs before J2 (arrived at t=1)
+Wait times are UNFAIR to early arrivals</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">3. Shortest Job First (SJF)</h3>
+                            <p class="mil-mb-15"><strong>Algorithm Overview:</strong></p>
+                            <ul class="mil-article-list mil-mb-30">
+                                <li>Always execute the job with <strong>shortest remaining time</strong></li>
+                                <li>Minimizes average waiting time</li>
+                                <li>Requires knowing job durations in advance</li>
+                                <li><strong>Optimal</strong> non-preemptive scheduling algorithm</li>
+                            </ul>
+
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>Better Example:
+Jobs arrive together: J1(dur=5), J2(dur=2), J3(dur=3)
+
+FCFS: J1→5, J2→7, J3→10, Avg=(5+7+10)/3=7.33
+SJF:  J2→2, J3→5, J1→10, Avg=(2+5+10)/3=5.67 ✓ Better!</code></pre>
+                            </div>
+
+                            <p class="mil-mb-30"><strong>Why SJF is Optimal:</strong> To minimize average waiting time, execute shorter jobs first. Generalizes to n jobs: always pick shortest remaining job.</p>
+
+                            <p class="mil-mb-15"><strong>The Starvation Problem:</strong></p>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>Scenario: Long job J1(dur=100) arrives at t=0
+          Short jobs keep arriving: J2,J3,J4... (dur=1) at t=1,2,3...
+
+Result: J1 NEVER runs! It keeps getting pushed back by shorter jobs.
+
+Solution: Use aging or switch to preemptive SRTF</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">4. Multi-Level Feedback Queue (MLFQ)</h3>
+                            <p class="mil-mb-15"><strong>Algorithm Overview:</strong></p>
+                            <p class="mil-mb-30">MLFQ is one of the most sophisticated and widely-used scheduling algorithms. It attempts to:</p>
+                            <ul class="mil-article-list mil-mb-30">
+                                <li><strong>Optimize turnaround time</strong> (like SJF) without knowing job durations</li>
+                                <li><strong>Minimize response time</strong> (like Round Robin) for interactive jobs</li>
+                                <li><strong>Adapt</strong> to job behavior dynamically</li>
+                            </ul>
+
+                            <h4 class="mil-mb-15">The MLFQ Rules</h4>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>┌────────────────────────────────────────────────────────┐
+│  MLFQ Basic Rules                                      │
+├────────────────────────────────────────────────────────┤
+│  Rule 1: If Priority(A) > Priority(B), A runs          │
+│  Rule 2: If Priority(A) = Priority(B), RR between A,B  │
+│  Rule 3: New jobs enter at highest priority            │
+│  Rule 4: If job uses entire time slice:                │
+│          → Demote to lower priority                    │
+│  Rule 5: If job yields CPU before time slice:          │
+│          → Keep same priority (not implemented here)   │
+└────────────────────────────────────────────────────────┘</code></pre>
+                            </div>
+
+                            <h4 class="mil-mb-15">Visual Representation</h4>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>Priority Levels (16 levels, 0 = highest):
+
+Level 0: [────] ← New jobs, Interactive jobs (time slice = 1)
+Level 1: [────]
+Level 2: [────]
+   ...
+Level 15: [───────] ← CPU-intensive jobs (time slice = 1)
+
+Job Behavior:
+┌────────┐
+│ New Job│ enters at Level 0
+└───┬────┘
+    │
+    ├─→ Uses full time slice (1 unit)
+    │   └─→ Demoted to Level 1
+    │
+    ├─→ Uses full time slice again
+    │   └─→ Demoted to Level 2
+    │
+    └─→ Eventually settles at appropriate priority</code></pre>
+                            </div>
+
+                            <h4 class="mil-mb-15">How MLFQ Learns Job Behavior</h4>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>Short/Interactive Jobs:
+Job: Short burst (2 units total)
+├─ t=0: Arrives at Q0, runs 1 unit
+├─ t=1: Demoted to Q1, runs 1 unit
+└─ t=2: Completes ✓
+Result: Completes quickly (low turnaround time)
+
+Long/CPU-bound Jobs:
+Job: Long burst (20 units total)
+├─ t=0: Arrives at Q0, runs 1 unit
+├─ t=1: Demoted to Q1, runs 1 unit
+├─ t=2: Demoted to Q2, runs 1 unit
+│   ...keeps getting demoted...
+├─ t=15: At Q15 (lowest priority)
+└─ Runs when no higher priority jobs exist
+Result: Doesn't block short jobs (good response time for others)</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Section 7: Event-Driven Programming -->
+                        <div id="event-driven" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">7. Event-Driven Programming Model</h2>
+
+                            <h3 class="mil-mb-30">The Callback Pattern</h3>
+                            <p class="mil-mb-30">Our simulator uses <strong>callbacks</strong> extensively. This is a function pointer that gets invoked at event time.</p>
+
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>// Callback type definition
+typedef void (*event_callback)(void* callbackData);
+
+// Scheduling an event
+list_node_t* simulatorSchedule(simulator_t* sim, uint64_t timestamp, 
+                               event_type_t type, 
+                               event_callback callback, 
+                               void* callbackData);</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">Event Flow Diagram</h3>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>┌────────────────────────────────────────────────────────┐
+│  Event Flow Example: Job Arrival and Completion        │
+└────────────────────────────────────────────────────────┘
+
+1. Trace Reader schedules job arrivals
+   │
+   └─→ simulatorSchedule(sim, arrivalTime, EVENT_ARRIVAL, 
+                         schedulerScheduleJob, job)
+
+2. Simulator advances time to arrivalTime
+   │
+   └─→ Invokes: schedulerScheduleJob(job)
+
+3. Scheduler handles arrival
+   │
+   ├─→ Adds job to queue
+   └─→ Calls: schedulerScheduleNextCompletion(completionTime)
+              │
+              └─→ simulatorSchedule(sim, completionTime, 
+                                   EVENT_COMPLETION, 
+                                   schedulerCompleteJob, scheduler)
+
+4. Simulator advances time to completionTime
+   │
+   └─→ Invokes: schedulerCompleteJob()
+
+5. Scheduler handles completion
+   │
+   ├─→ Removes job from queue
+   └─→ May schedule next completion (if more jobs exist)</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">Key Insight: One Completion at a Time</h3>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>❌ WRONG: Schedule all completions immediately
+├─ Job 1 arrives → schedule completion at t=10
+├─ Job 2 arrives → schedule completion at t=15
+└─ Job 3 arrives → schedule completion at t=20
+
+Why wrong? What if Job 4 (shorter) arrives at t=5?
+With SJF, the completions at t=15 and t=20 are invalid!
+
+✓ CORRECT: Only schedule next completion
+├─ Job 1 arrives → schedule completion at t=10
+├─ Job 2 arrives → (don't schedule completion yet)
+├─ Job 3 arrives → (don't schedule completion yet)
+├─ t=10: Job 1 completes → NOW schedule Job 2's completion
+└─ t=15: Job 2 completes → NOW schedule Job 3's completion</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Section 8: Testing -->
+                        <div id="testing" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">8. Testing and Validation</h2>
+
+                            <h3 class="mil-mb-30">Test Framework</h3>
+                            <p class="mil-mb-30">The project uses a comprehensive testing framework with 40 test cases (10 per scheduler):</p>
+
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>Trace Files (Input):
+┌──────────────────────────────┐
+│ JobID, ArrivalTime, Duration │
+├──────────────────────────────┤
+│ 1,0,5                        │
+│ 2,1,3                        │
+│ 3,2,1                        │
+└──────────────────────────────┘
+
+Expected Output:
+┌──────────────────────────────┐
+│ JobID, CompletionTime        │
+├──────────────────────────────┤
+│ 1,5                          │
+│ 2,8                          │
+│ 3,6                          │
+└──────────────────────────────┘
+
+Test Result: diff shows no differences ✓ PASS</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">Running Tests</h3>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code># Compile the project
+make
+
+# Run a single test
+./simulator traces/FCFS_1.csv traces/FCFS_1.csv.out FCFS
+
+# Compare with expected output
+diff traces/FCFS_1.csv.out traces/FCFS_1.csv.expected
+
+# Run all tests automatically
+make test</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">Test Coverage</h3>
+                            <div class="row mil-mb-30">
+                                <div class="col-md-6">
+                                    <ul class="mil-article-list mil-mb-30">
+                                        <li><strong>FCFS:</strong> Simple to complex arrival patterns</li>
+                                        <li><strong>LCFS:</strong> Stack behavior, ordering verification</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="mil-article-list mil-mb-30">
+                                        <li><strong>SJF:</strong> Tie-breaking, priority ordering</li>
+                                        <li><strong>MLFQ:</strong> Preemption, multi-level queues, time slices</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 9: Key Insights -->
+                        <div id="insights" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">9. Key Insights and Learning Outcomes</h2>
+
+                            <h3 class="mil-mb-30">1. Event-Driven Programming Mindset</h3>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>Traditional Programming:
+// Sequential thinking
+for (int i = 0; i < numJobs; i++) {
+    process(jobs[i]);
+}
+
+Event-Driven Programming:
+// React to events
+void onJobArrival(job_t* job) {
+    // Only handle THIS arrival
+    // Future events will trigger their own callbacks
+}</code></pre>
+                            </div>
+                            <p class="mil-mb-30"><strong>Key Insight:</strong> Don't try to control the entire flow. React to individual events and let the simulator orchestrate the rest.</p>
+
+                            <h3 class="mil-mb-30">2. Trade-offs in Scheduling</h3>
+                            <div class="mil-code-block mil-mb-30">
+                                <pre><code>┌────────────────────────────────────────────────────┐
+│  Scheduler Comparison                              │
+├────────────────────────────────────────────────────┤
+│                                                    │
+│  FCFS: Simple, fair, but suffers convoy effect     │
+│        → Good for: Batch processing                │
+│                                                    │
+│  LCFS: Simple, unfair, poor turnaround             │
+│        → Good for: Stack-based workflows (rare)    │
+│                                                    │
+│  SJF:  Optimal avg wait, but starves long jobs     │
+│        → Good for: Known job durations             │
+│                                                    │
+│  MLFQ: Adaptive, good all-around, complex          │
+│        → Good for: General-purpose OS              │
+│                                                    │
+└────────────────────────────────────────────────────┘</code></pre>
+                            </div>
+
+                            <h3 class="mil-mb-30">3. The Power of Generic Data Structures</h3>
+                            <p class="mil-mb-30">Using void* pointers made the linked list reusable:</p>
+                            <ul class="mil-article-list mil-mb-30">
+                                <li>Job queues (storing job_t*)</li>
+                                <li>Event queues (storing event_t*)</li>
+                                <li>Priority queues (with compare function)</li>
+                                <li>FIFO queues (without compare function)</li>
+                            </ul>
+                            <p class="mil-mb-30"><strong>Trade-off:</strong> Type safety vs. flexibility. Advantage: Single implementation, many uses. Disadvantage: No compile-time type checking.</p>
+
+                            <h3 class="mil-mb-30">4. Separation of Concerns</h3>
+                            <p class="mil-mb-30">The architecture cleanly separates:</p>
+                            <div class="row mil-mb-30">
+                                <div class="col-md-6">
+                                    <ul class="mil-article-list mil-mb-30">
+                                        <li><strong>Simulator:</strong> Time management, event ordering</li>
+                                        <li><strong>Scheduler Interface:</strong> Common operations for all policies</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="mil-article-list mil-mb-30">
+                                        <li><strong>Policy Implementation:</strong> Specific scheduling logic</li>
+                                        <li><strong>Data Structures:</strong> Generic reusable components</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="mil-mb-30"><strong>Benefit:</strong> Can easily add new scheduling policies without modifying simulator.</p>
+
+                            <h3 class="mil-mb-30">5. Testing is Essential</h3>
+                            <p class="mil-mb-30">With 40 test cases (10 per scheduler), testing caught:</p>
+                            <ul class="mil-article-list mil-mb-30">
+                                <li>Off-by-one errors in list traversal</li>
+                                <li>Incorrect completion time calculations</li>
+                                <li>Memory leaks from forgotten frees</li>
+                                <li>Edge cases (empty queue, single job, simultaneous arrivals)</li>
+                            </ul>
+                        </div>
+
+                        <!-- Section 10: Conclusion -->
+                        <div id="conclusion" class="mil-article-section mil-mb-60">
+                            <h2 class="mil-up mil-mb-30">10. Conclusion</h2>
+
+                            <h3 class="mil-mb-30">Project Summary</h3>
+                            <p class="mil-mb-30">This CPU scheduling simulator project demonstrates:</p>
+                            <ul class="mil-article-list mil-mb-30">
+                                <li><strong>Systems Programming:</strong> Low-level C programming with manual memory management</li>
+                                <li><strong>Operating Systems Concepts:</strong> Deep understanding of scheduling algorithms</li>
+                                <li><strong>Software Architecture:</strong> Clean separation of concerns, modular design</li>
+                                <li><strong>Event-Driven Programming:</strong> Callback-based control flow</li>
+                                <li><strong>Data Structures:</strong> Generic linked list with sorted insertion</li>
+                                <li><strong>Testing & Validation:</strong> Comprehensive test suite with automated grading</li>
+                            </ul>
+
+                            <h3 class="mil-mb-30">Real-World Applications</h3>
+                            <p class="mil-mb-15">The concepts learned apply to:</p>
+                            <ul class="mil-article-list mil-mb-30">
+                                <li><strong>Operating System Development:</strong> Linux, Windows scheduler implementation</li>
+                                <li><strong>Network Packet Scheduling:</strong> QoS, traffic shaping</li>
+                                <li><strong>Database Query Optimization:</strong> Query scheduling and execution</li>
+                                <li><strong>Cloud Resource Management:</strong> VM/container scheduling (Kubernetes)</li>
+                                <li><strong>Real-Time Systems:</strong> Task scheduling with deadlines</li>
+                            </ul>
+
+                            <h3 class="mil-mb-30">Key Takeaways</h3>
+                            <ol class="mil-article-list mil-mb-30">
+                                <li><strong>Scheduling is about trade-offs:</strong> No single algorithm is best for all workloads</li>
+                                <li><strong>Event-driven programming requires a different mindset:</strong> React to events rather than controlling flow</li>
+                                <li><strong>Generic data structures are powerful:</strong> Same list serves multiple purposes</li>
+                                <li><strong>Simulation is a valuable learning tool:</strong> Understand system behavior without building real OS</li>
+                                <li><strong>Testing is not optional:</strong> Complex systems require comprehensive validation</li>
+                            </ol>
+
+                            <h3 class="mil-mb-30">Future Enhancements</h3>
+                            <p class="mil-mb-15">Possible extensions to this project:</p>
+                            <ul class="mil-article-list mil-mb-30">
+                                <li>Shortest Remaining Time First (SRTF) - Preemptive version of SJF</li>
+                                <li>Priority Scheduling with explicit job priorities</li>
+                                <li>Fair Share Scheduling to ensure fairness across users</li>
+                                <li>Real-Time Scheduling with Earliest Deadline First (EDF)</li>
+                                <li>Multi-Core Scheduling with multiple CPUs and load balancing</li>
+                                <li>Performance Metrics visualization for turnaround time, wait time, throughput</li>
+                                <li>GUI Visualizer to see jobs moving through queues in real-time</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <!-- End Article Content -->
+
+                </div>
+                <!-- End mil-project -->
+
+                <!-- Navigation buttons -->
+                <div class="mil-pagination-panel mil-mb-60">
+                    <a href="../../projects.html" class="mil-button mil-type-2">Back to Projects</a>
+                </div>
+
+            </div>
+            <!-- End container -->
+
+        </div>
+        <!-- End mil-page -->
+    </div>
+    <!-- onepage wrapper end -->
+
+    <!-- jquery js -->
+    <script src="../../js/plugins/jquery.min.js"></script>
+    <!-- magnific-popup js -->
+    <script src="../../js/plugins/magnific-popup.js"></script>
+    <!-- swiper js -->
+    <script src="../../js/plugins/swiper.min.js"></script>
+    <!-- isotope js -->
+    <script src="../../js/plugins/isotope.min.js"></script>
+
+    <!-- treto js -->
+    <script src="../../js/main.js"></script>
+</body>
+
+</html>
+

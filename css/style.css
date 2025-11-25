@@ -3324,3 +3324,360 @@ contact
 .mil-section[data-name="Blogs"] .mil-reviews-nav::after {
   display: none;
 }
+/* ========================================
+   MALLOC PROJECT - TECHNICAL CONTENT STYLES
+   ======================================== */
+
+/* Executive Summary Card */
+.mil-executive-summary {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 40px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Metric Cards */
+.mil-metric-card {
+    text-align: center;
+    padding: 30px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.mil-metric-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 138, 0, 0.5);
+    box-shadow: 0 5px 20px rgba(255, 138, 0, 0.1);
+}
+
+.mil-metric-icon {
+    font-size: 32px;
+    margin-bottom: 15px;
+    color: #ff8a00;
+}
+
+.mil-metric-card h3 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.mil-mini-metric {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.mil-mini-metric h4 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+/* Feature Lists */
+.mil-feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.mil-feature-list li {
+    padding: 10px 0;
+    padding-left: 30px;
+    position: relative;
+}
+
+.mil-feature-list li i {
+    position: absolute;
+    left: 0;
+    top: 12px;
+}
+
+/* Tech Tags */
+.mil-tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.mil-tech-tag {
+    display: inline-block;
+    padding: 8px 16px;
+    background: rgba(255, 138, 0, 0.1);
+    color: #ff8a00;
+    border: 1px solid rgba(255, 138, 0, 0.3);
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.mil-tech-tag:hover {
+    background: rgba(255, 138, 0, 0.2);
+    border-color: rgba(255, 138, 0, 0.5);
+}
+
+.mil-featured-tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.mil-featured-tag {
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(255, 138, 0, 0.1);
+    color: #ff8a00;
+    border: 1px solid rgba(255, 138, 0, 0.3);
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Table of Contents */
+.mil-toc {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mil-toc-list {
+    list-style: decimal;
+    padding-left: 25px;
+    margin: 0;
+}
+
+.mil-toc-list li {
+    padding: 8px 0;
+}
+
+.mil-toc-list a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.mil-toc-list a:hover {
+    color: #ff8a00;
+}
+
+/* Article Content */
+.mil-article-content {
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.mil-article-section {
+    scroll-margin-top: 100px;
+}
+
+.mil-article-list {
+    padding-left: 25px;
+    margin: 0;
+}
+
+.mil-article-list li {
+    padding: 5px 0;
+}
+
+/* Code Blocks */
+.mil-code-block {
+    background: #1e1e1e;
+    border-radius: 8px;
+    padding: 20px;
+    overflow-x: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mil-code-block pre {
+    margin: 0;
+    color: #d4d4d4;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre;
+}
+
+.mil-code-block code {
+    background: transparent;
+    padding: 0;
+    color: #d4d4d4;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+code {
+    background: rgba(255, 138, 0, 0.1);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    color: #ff8a00;
+}
+
+/* Tables */
+.mil-table-responsive {
+    overflow-x: auto;
+}
+
+.mil-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.mil-table thead {
+    background: rgba(255, 138, 0, 0.1);
+}
+
+.mil-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #ff8a00;
+    border-bottom: 2px solid rgba(255, 138, 0, 0.3);
+}
+
+.mil-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mil-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.mil-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.mil-highlight-row {
+    background: rgba(255, 138, 0, 0.05);
+}
+
+.mil-highlight-row td {
+    font-weight: 600;
+}
+
+/* Challenge Items */
+.mil-challenge-item {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 3px solid #ff8a00;
+}
+
+/* Improvement Items */
+.mil-improvement-item {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 3px solid #ff8a00;
+}
+
+.mil-improvement-item h4 {
+    color: #ff8a00;
+}
+
+/* Key Takeaways */
+.mil-key-takeaways {
+    background: rgba(255, 138, 0, 0.05);
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 138, 0, 0.2);
+}
+
+.mil-key-takeaways h4 {
+    color: #ff8a00;
+    margin-bottom: 15px;
+}
+
+/* Acknowledgments */
+.mil-acknowledgments {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 20px;
+    border-radius: 8px;
+    font-style: italic;
+}
+
+/* Responsive Design for Technical Content */
+@media screen and (max-width: 768px) {
+    .mil-executive-summary {
+        padding: 20px;
+    }
+    
+    .mil-metric-card {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+    }
+    
+    .mil-metric-card h3 {
+        font-size: 36px;
+    }
+    
+    .mil-mini-metric h4 {
+        font-size: 28px;
+    }
+    
+    .mil-code-block {
+        padding: 15px;
+        font-size: 12px;
+    }
+    
+    .mil-table {
+        font-size: 14px;
+    }
+    
+    .mil-table th,
+    .mil-table td {
+        padding: 10px;
+    }
+    
+    .mil-tech-tags {
+        gap: 5px;
+    }
+    
+    .mil-tech-tag {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    
+    .mil-toc {
+        padding: 20px;
+    }
+    
+    .mil-article-content {
+        font-size: 15px;
+    }
+}
+
+/* Print Styles for Technical Content */
+@media print {
+    .mil-frame,
+    .mil-pagination,
+    .mil-pagination-panel {
+        display: none;
+    }
+    
+    .mil-code-block {
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+    }
+    
+    .mil-code-block pre {
+        color: #000;
+    }
+    
+    .mil-table {
+        border: 1px solid #ddd;
+    }
+    
+    .mil-table th {
+        background: #f5f5f5;
+        color: #000;
+    }
+}
+
