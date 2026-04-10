@@ -1,14 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
 
-$font-1: 'Jost',
-sans-serif;
+/* Retro Dark Pixel Art Theme Variables */
+$font-1: 'Space Mono', monospace;
+$font-pixel: 'VT323', monospace;
 
-$dark: #101010;
-$gray: #202020;
-$soft: rgba(16, 16, 16, 0.18);
-$light: rgba(255, 255, 255, 1);
-$accent: #fa4729;
-$accent-light: rgba(250, 71, 41, 0.18);
-$black: #010101;
+$dark: #111111;
+$gray: #1a1a1a;
+$soft: rgba(255, 87, 34, 0.18);
+$light: #E0E0E0;
+$accent: #FF5722;
+$accent-blue: #0d47a1;
+$accent-light: rgba(255, 87, 34, 0.18);
+$black: #000000;
 
 $tr: .4s cubic-bezier(0, 0, 0.3642, 1);
+$tr-pixel: .2s steps(4, end);

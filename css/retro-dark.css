@@ -1,0 +1,1193 @@
+/* ============================================================
+   RETRO DARK PIXEL ART THEME — retro-dark.css
+   Overrides for: CRT scanlines, glow effects, split-screen
+   hero, dot-matrix backgrounds, pixel borders, transitions
+   ============================================================ */
+
+/* ---- 0. BODY BASE — bulletproof dark background ---- */
+html, body {
+  background-color: #111111 !important;
+  color: #E0E0E0 !important;
+}
+
+/* ============================================================
+   POLISH FIXES — April 2026
+   ============================================================ */
+
+/* FIX A: SINGLE FRAME BORDER — remove double/triple border effect */
+.mil-frame::before {
+  display: none !important;
+}
+.mil-frame::after {
+  border: 1px solid rgba(255, 87, 34, 0.2) !important;
+}
+
+/* FIX B: NAV MENU — flush with background, no raised shadow */
+.mil-top-panel nav ul {
+  box-shadow: none !important;
+  background: #111111 !important;
+}
+.mil-top-panel.mil-active {
+  box-shadow: none !important;
+  border-bottom: 1px solid rgba(255, 87, 34, 0.2) !important;
+}
+
+/* FIX C: PROJECT FILTER — color-only active state, no glow text-shadow */
+.mil-filter a {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  border: 1px solid transparent !important;
+  transition: color 0.15s steps(3, end), border-color 0.15s steps(3, end) !important;
+}
+.mil-filter a:hover,
+.mil-filter a.mil-current {
+  color: #FF5722 !important;
+  border-color: rgba(255, 87, 34, 0.4) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* FIX D: PROJECT IMAGE — remove offset black border overlay on images */
+.mil-portfolio-item .mil-cover::after {
+  display: none !important;
+}
+/* Also remove the duplicate outer border from blog cover */
+.mil-blog-card .mil-cover::after {
+  display: none !important;
+}
+
+/* FIX E: SKILL BOXES — uniform height, aligned content */
+.mil-section[data-name="Skills"] .row {
+  align-items: stretch !important;
+}
+.mil-section[data-name="Skills"] [class*="col-"] {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.mil-section[data-name="Skills"] .mil-icon-box {
+  flex: 1 !important;
+  min-height: 130px !important;
+  display: flex !important;
+  align-items: flex-start !important;
+}
+
+/* FIX F: EDUCATION CARDS — uniform height in Swiper */
+.mil-section[data-name="Education"] .mil-icon-box.mil-type-2 {
+  min-height: 260px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.mil-section[data-name="Education"] .mil-box-text {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+.mil-section[data-name="Education"] .mil-learn-more-btn {
+  margin-top: auto !important;
+}
+
+/* FIX G: EDUCATION MODAL — dark backgrounds for content sections */
+.mil-education-section {
+  background-color: #1a1a1a !important;
+  border: 1px solid rgba(255, 87, 34, 0.2) !important;
+  padding: 20px 24px !important;
+  margin-bottom: 12px !important;
+}
+.mil-education-section h3 {
+  font-family: 'VT323', monospace !important;
+  color: #FF5722 !important;
+  font-size: 24px !important;
+  margin-bottom: 10px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+}
+.mil-education-section p,
+.mil-education-section li {
+  color: #B0B0B0 !important;
+  font-family: 'Space Mono', monospace !important;
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+}
+.mil-education-section ul {
+  padding-left: 16px !important;
+}
+.mil-education-modal-header h2 {
+  font-family: 'VT323', monospace !important;
+  color: #FF5722 !important;
+  font-size: 42px !important;
+}
+.mil-education-modal-header .period {
+  font-family: 'Space Mono', monospace !important;
+  color: #7CB3FF !important;
+  font-size: 14px !important;
+}
+
+/* FIX H: SOCIAL PANEL — clean pixel-theme icons, no broken boxes */
+.mil-social-panel ul {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+.mil-social-panel ul li {
+  display: block !important;
+}
+.mil-social-panel ul li a {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  width: fit-content !important;
+  text-decoration: none !important;
+}
+.mil-social-panel ul li a::before {
+  display: none !important; /* remove the generic diamond icon */
+}
+/* 8-bit LinkedIn pixel icon — 16x16 grid, blue bg, white "in" */
+.mil-social-panel ul li:first-child a::before {
+  content: '';
+  display: inline-block !important;
+  width: 16px !important;
+  height: 16px !important;
+  image-rendering: pixelated !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect width='8' height='8' fill='%230077B5'/%3E%3Crect x='1' y='1' width='1' height='5' fill='white'/%3E%3Crect x='1' y='1' width='1' height='1' fill='white'/%3E%3Crect x='3' y='3' width='1' height='3' fill='white'/%3E%3Crect x='4' y='2' width='1' height='1' fill='white'/%3E%3Crect x='5' y='2' width='1' height='4' fill='white'/%3E%3Crect x='4' y='3' width='1' height='1' fill='white'/%3E%3C/svg%3E") !important;
+  background-size: 16px 16px !important;
+  background-repeat: no-repeat !important;
+}
+/* 8-bit GitHub pixel icon — 16x16 grid, pixel octocat head */
+.mil-social-panel ul li:last-child a::before {
+  content: '';
+  display: inline-block !important;
+  width: 16px !important;
+  height: 16px !important;
+  image-rendering: pixelated !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect x='2' y='0' width='4' height='1' fill='%23E0E0E0'/%3E%3Crect x='1' y='1' width='6' height='1' fill='%23E0E0E0'/%3E%3Crect x='0' y='2' width='8' height='3' fill='%23E0E0E0'/%3E%3Crect x='1' y='5' width='6' height='1' fill='%23E0E0E0'/%3E%3Crect x='1' y='0' width='1' height='1' fill='%23E0E0E0'/%3E%3Crect x='6' y='0' width='1' height='1' fill='%23E0E0E0'/%3E%3Crect x='2' y='3' width='1' height='1' fill='%23111111'/%3E%3Crect x='5' y='3' width='1' height='1' fill='%23111111'/%3E%3Crect x='1' y='6' width='1' height='2' fill='%23E0E0E0'/%3E%3Crect x='3' y='6' width='1' height='2' fill='%23E0E0E0'/%3E%3Crect x='5' y='6' width='1' height='2' fill='%23E0E0E0'/%3E%3Crect x='7' y='6' width='1' height='2' fill='%23E0E0E0'/%3E%3C/svg%3E") !important;
+  background-size: 16px 16px !important;
+  background-repeat: no-repeat !important;
+}
+
+/* ============================================================
+   EXPERIENCE — TERMINAL CARD STACK SLIDER
+   ============================================================ */
+
+.mil-exp-section {
+  padding: 60px 0 80px !important;
+}
+
+/* Swiper card stack container — overflow visible so stacked cards show */
+.mil-exp-slider,
+.mil-exp-slider.swiper-cards {
+  width: 100% !important;
+  max-width: 680px !important;
+  margin: 0 auto !important;
+  padding-bottom: 60px !important;
+  overflow: visible !important;
+}
+
+/* The terminal card */
+.exp-card {
+  background: #0d1117 !important;
+  border: 2px solid rgba(255, 87, 34, 0.5) !important;
+  box-shadow: 0 0 20px rgba(255, 87, 34, 0.15), 6px 6px 0 rgba(255, 87, 34, 0.2) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 380px !important;
+  overflow: hidden !important;
+  user-select: none !important;
+}
+
+/* Terminal title bar */
+.exp-card__bar {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  background: #1a1a1a !important;
+  border-bottom: 1px solid rgba(255, 87, 34, 0.35) !important;
+  padding: 10px 16px !important;
+  flex-shrink: 0 !important;
+}
+
+.exp-card__dots {
+  display: flex !important;
+  gap: 6px !important;
+}
+
+.exp-dot {
+  display: inline-block !important;
+  width: 10px !important;
+  height: 10px !important;
+  flex-shrink: 0 !important;
+}
+.exp-dot--r { background: #FF5F57 !important; }
+.exp-dot--y { background: #FFBD2E !important; }
+.exp-dot--g { background: #28CA41 !important; }
+
+.exp-card__bar-label {
+  font-family: 'Space Mono', monospace !important;
+  font-size: 11px !important;
+  color: #555 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  flex: 1 !important;
+  text-align: center !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* Card body: logo left + info right */
+.exp-card__body {
+  display: flex !important;
+  gap: 24px !important;
+  padding: 28px 28px 24px !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+}
+
+/* Logo box */
+.exp-card__logo-wrap {
+  width: 90px !important;
+  height: 90px !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #111111 !important;
+  border: 1px solid rgba(255, 87, 34, 0.3) !important;
+  padding: 10px !important;
+}
+
+.exp-card__logo {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  filter: none !important;
+}
+
+/* Info column */
+.exp-card__info {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+}
+
+.exp-card__prompt {
+  font-family: 'Space Mono', monospace !important;
+  font-size: 11px !important;
+  color: #28CA41 !important;
+  letter-spacing: 0.04em !important;
+  margin-bottom: 8px !important;
+}
+
+.exp-card__role {
+  font-family: 'VT323', monospace !important;
+  font-size: 22px !important;
+  color: #FF5722 !important;
+  letter-spacing: 0.05em !important;
+  line-height: 1.1 !important;
+}
+
+.exp-card__company {
+  font-family: 'Space Mono', monospace !important;
+  font-size: 11px !important;
+  color: #E0E0E0 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+.exp-card__years {
+  font-family: 'Space Mono', monospace !important;
+  font-size: 12px !important;
+  color: #7CB3FF !important;
+  letter-spacing: 0.04em !important;
+  margin-top: 2px !important;
+}
+
+.exp-card__desc {
+  font-family: 'Space Mono', monospace !important;
+  font-size: 11px !important;
+  color: #888 !important;
+  line-height: 1.65 !important;
+  margin-top: 10px !important;
+  border-top: 1px solid rgba(255, 87, 34, 0.15) !important;
+  padding-top: 10px !important;
+}
+
+/* Navigation bar below slider */
+.mil-exp-nav {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 20px !important;
+  margin-top: 24px !important;
+}
+
+.mil-exp-nav .mil-prev,
+.mil-exp-nav .mil-next {
+  width: 44px !important;
+  height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid rgba(255, 87, 34, 0.4) !important;
+  background: transparent !important;
+  color: #B0B0B0 !important;
+  cursor: pointer !important;
+  transition: all 0.15s steps(3, end) !important;
+  box-shadow: none !important;
+}
+.mil-exp-nav .mil-prev:hover,
+.mil-exp-nav .mil-next:hover {
+  border-color: #FF5722 !important;
+  color: #FF5722 !important;
+  box-shadow: 0 0 10px rgba(255, 87, 34, 0.4) !important;
+}
+
+.mil-exp-fraction {
+  font-family: 'Space Mono', monospace !important;
+  font-size: 13px !important;
+  color: #555 !important;
+  min-width: 60px !important;
+  text-align: center !important;
+}
+.mil-exp-fraction .swiper-pagination-current {
+  color: #FF5722 !important;
+  font-weight: 700 !important;
+}
+
+/* Responsive: stack on mobile */
+@media screen and (max-width: 768px) {
+  .exp-card__body {
+    flex-direction: column !important;
+    padding: 20px !important;
+    gap: 16px !important;
+  }
+  .exp-card__logo-wrap {
+    width: 70px !important;
+    height: 70px !important;
+  }
+  .exp-card {
+    height: auto !important;
+    min-height: 360px !important;
+  }
+  .mil-exp-slider {
+    max-width: 100% !important;
+  }
+}
+
+/* ---- 1. CRT SCANLINE OVERLAY ---- */
+body::after {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.09) 2px,
+    rgba(0, 0, 0, 0.09) 4px
+  ) !important;
+  opacity: 1 !important;
+  background-size: 100% 4px !important;
+  pointer-events: none !important;
+}
+
+/* ---- 2. GLOBAL BORDER-RADIUS NUKE (pixel-perfect) ---- */
+*, *::before, *::after {
+  border-radius: 0 !important;
+}
+
+/* ---- 3. LOGO — always show white version on dark bg ---- */
+.mil-logo-black { display: none !important; }
+.mil-logo-white { display: block !important; opacity: 1 !important; }
+
+/* ---- 4. NAVIGATION — dark bg, terminal style ---- */
+.mil-top-panel {
+  background: #111111 !important;
+  border-bottom: 1px solid rgba(255, 87, 34, 0.3) !important;
+}
+
+.mil-top-panel nav {
+  background: #111111 !important;
+}
+
+.mil-top-panel nav ul li a {
+  color: #E0E0E0 !important;
+  font-family: 'Space Mono', monospace !important;
+  font-size: 13px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  transition: color 0.15s steps(3, end), text-shadow 0.15s steps(3, end) !important;
+}
+
+.mil-top-panel nav ul li a:hover {
+  color: #FF5722 !important;
+  text-shadow: 0 0 8px #FF5722 !important;
+}
+
+/* Blinking '>' terminal cursor for active nav item */
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.mil-top-panel nav ul li.mil-active > a::before {
+  content: '> ';
+  color: #FF5722;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  animation: blink-cursor 1s step-end infinite;
+}
+
+.mil-top-panel nav ul li.mil-active::after {
+  display: none !important;
+}
+
+/* Mobile menu button — make bars orange */
+.mil-menu-btn span,
+.mil-menu-btn span::before,
+.mil-menu-btn span::after {
+  background-color: #FF5722 !important;
+}
+
+/* ---- 5. PAGINATION DOTS — square pixels with glow ---- */
+@keyframes pixel-breathe {
+  0%, 100% { box-shadow: 0 0 4px 1px #FF5722; }
+  50%       { box-shadow: 0 0 14px 5px #FF5722; }
+}
+
+.mil-pagination .mil-dot::after {
+  transform: none !important;
+  border-radius: 0 !important;
+}
+
+.mil-pagination .mil-dot.mil-active::after {
+  background: #FF5722 !important;
+  border-color: #FF5722 !important;
+  animation: pixel-breathe 2s ease-in-out infinite;
+}
+
+.mil-pagination .mil-dot:hover::after {
+  border-color: #FF5722 !important;
+  box-shadow: 0 0 8px 2px rgba(255, 87, 34, 0.5) !important;
+}
+
+/* ---- 6. GLOWING ORANGE HOVER STATES ---- */
+.mil-button:hover {
+  box-shadow: 0 0 16px 3px #FF5722, 0 0 6px 0 #FF5722 inset !important;
+  border-color: #FF5722 !important;
+  text-shadow: 0 0 6px #FF5722 !important;
+  background-color: #FF5722 !important;
+  color: #111111 !important;
+}
+
+.mil-button.mil-type-2 {
+  background: transparent !important;
+  border: 2px solid #E0E0E0 !important;
+  color: #E0E0E0 !important;
+}
+
+.mil-button.mil-type-2:hover {
+  background: transparent !important;
+  border-color: #FF5722 !important;
+  color: #FF5722 !important;
+  box-shadow: 0 0 14px 2px #FF5722, 0 0 4px 0 #FF5722 inset !important;
+  text-shadow: 0 0 8px #FF5722 !important;
+}
+
+.mil-slider-nav .mil-prev:hover,
+.mil-slider-nav .mil-next:hover {
+  box-shadow: 0 0 12px 2px #FF5722 !important;
+  border-color: #FF5722 !important;
+  color: #FF5722 !important;
+}
+
+/* ---- 7. FRAME BORDERS — single clean border (handled in FIX A above) ---- */
+
+/* ---- 8. DIVIDER — orange accent line ---- */
+.mil-divider {
+  background-color: #FF5722 !important;
+}
+
+/* ---- 9. SPLIT-SCREEN HERO LAYOUT ---- */
+.mil-retro-hero {
+  display: flex !important;
+  flex-direction: row !important;
+  height: 100vh !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  min-height: 600px !important;
+}
+
+.mil-hero-image-panel {
+  position: relative !important;
+  width: 50% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  border-right: 2px solid #FF5722 !important;
+}
+
+.mil-hero-text-panel {
+  width: 50% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  background: #111111 !important;
+  padding: 0 60px !important;
+  position: relative !important;
+}
+
+/* Override Bootstrap row/col to let flexbox work */
+.mil-retro-hero .container-full {
+  display: contents !important;
+}
+.mil-retro-hero .row {
+  display: contents !important;
+}
+
+/* ---- 10. PIXEL PHOTO EFFECT (CSS-only) ---- */
+.mil-banner-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center 40% !important;
+  image-rendering: pixelated !important;
+  image-rendering: crisp-edges !important;
+  filter: contrast(1.15) saturate(0) brightness(0.55) !important;
+  display: block !important;
+}
+
+.mil-hero-image-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  background:
+    linear-gradient(90deg, rgba(13, 71, 161, 0.5) 2px, transparent 1%) center / 4px 4px,
+    linear-gradient(rgba(13, 71, 161, 0.5) 2px, transparent 1%) center / 4px 4px,
+    rgba(13, 71, 161, 0.3) !important;
+  mix-blend-mode: multiply !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+.mil-hero-watermark {
+  position: absolute !important;
+  bottom: 48px !important;
+  left: 0 !important;
+  right: 0 !important;
+  text-align: center !important;
+  font-family: 'VT323', monospace !important;
+  font-size: clamp(28px, 4vw, 52px) !important;
+  color: rgba(224, 224, 224, 0.2) !important;
+  letter-spacing: 0.35em !important;
+  text-transform: uppercase !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+
+/* ---- 11. HERO TEXT PANEL STYLING ---- */
+.mil-retro-hero .mil-banner-text {
+  width: 100% !important;
+}
+
+.mil-retro-hero .mil-p-120-120 {
+  padding: 60px 0 !important;
+}
+
+.mil-retro-hero h1,
+.mil-retro-hero h1 .v-char,
+.mil-retro-hero h1 .name-text {
+  font-family: 'VT323', monospace !important;
+  color: #FF5722 !important;
+  font-size: clamp(56px, 7vw, 100px) !important;
+  line-height: 1 !important;
+  text-shadow: 4px 4px 0 rgba(255, 87, 34, 0.2) !important;
+}
+
+.mil-retro-hero .mil-upper {
+  font-family: 'Space Mono', monospace !important;
+  color: #B0B0B0 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.15em !important;
+}
+
+/* Orange terminal command-line indicator above hero subtitle */
+.mil-retro-hero .mil-upper::before {
+  content: '// ';
+  color: #FF5722;
+  font-family: 'VT323', monospace;
+}
+
+/* ---- 12. ABOUT SECTION ---- */
+.mil-about-person-2 img,
+img.mil-avatar {
+  border: 2px solid #FF5722 !important;
+  box-shadow: 4px 4px 0 rgba(255, 87, 34, 0.3) !important;
+}
+
+/* ---- 13. SKILL ICON BOXES ---- */
+.mil-icon-box {
+  border: 1px solid rgba(255, 87, 34, 0.3) !important;
+  background: #0d1117 !important;
+  transition: border-color 0.2s steps(3, end), box-shadow 0.2s steps(3, end) !important;
+}
+
+.mil-icon-box:hover {
+  border-color: #FF5722 !important;
+  box-shadow: 0 0 12px 2px rgba(255, 87, 34, 0.4) !important;
+}
+
+.mil-icon-box i {
+  color: #FF5722 !important;
+}
+
+/* ---- 14. EXPERIENCE — Circular Slider ---- */
+.circular-slider .wrapper {
+  border: 2px solid rgba(255, 87, 34, 0.4) !important;
+  box-shadow: 0 0 20px rgba(255, 87, 34, 0.15) !important;
+}
+
+.descriptions__item h1 {
+  font-family: 'VT323', monospace !important;
+  color: #FF5722 !important;
+}
+
+.descriptions__item .mil-upper {
+  color: #B0B0B0 !important;
+}
+
+/* Year range badge */
+.year-range {
+  font-family: 'Space Mono', monospace !important;
+  color: #7CB3FF !important;
+  background: rgba(13, 71, 161, 0.3) !important;
+  border: 1px solid #0d47a1 !important;
+  padding: 2px 10px !important;
+  font-size: 11px !important;
+  letter-spacing: 0.05em !important;
+  display: inline-block !important;
+}
+
+/* ---- 15. EDUCATION — Certification Readout grid ---- */
+.mil-section[data-name="Education"] {
+  background-image:
+    linear-gradient(rgba(13, 71, 161, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13, 71, 161, 0.06) 1px, transparent 1px) !important;
+  background-size: 24px 24px !important;
+}
+
+.mil-timeline-nav {
+  border-left: 2px solid #FF5722 !important;
+}
+
+/* Education swiper slides */
+.mil-section[data-name="Education"] .mil-upper {
+  font-family: 'Space Mono', monospace !important;
+  font-size: 11px !important;
+  letter-spacing: 0.12em !important;
+  color: #7CB3FF !important;
+}
+
+.mil-section[data-name="Education"] h3 {
+  font-family: 'VT323', monospace !important;
+  color: #FF5722 !important;
+}
+
+.mil-section[data-name="Education"] .mil-button {
+  border: 2px solid #FF5722 !important;
+  color: #FF5722 !important;
+  background: transparent !important;
+  font-family: 'Space Mono', monospace !important;
+  font-size: 11px !important;
+}
+
+.mil-section[data-name="Education"] .mil-button:hover {
+  background: #FF5722 !important;
+  color: #111111 !important;
+  box-shadow: 0 0 14px 2px #FF5722 !important;
+}
+
+/* ---- 16. DOT MATRIX BG ITEMS ---- */
+.mil-bg-item {
+  background:
+    linear-gradient(90deg, rgba(13, 71, 161, 0.45) 2px, transparent 1%) center / 4px 4px,
+    linear-gradient(rgba(13, 71, 161, 0.45) 2px, transparent 1%) center / 4px 4px,
+    #0a1628 !important;
+}
+
+/* ---- 17. BLOG SECTION ---- */
+.mil-section[data-name="Blogs"] .mil-blog-post,
+.mil-blog-post {
+  border: 2px solid rgba(255, 87, 34, 0.3) !important;
+  background: #0d1117 !important;
+  transition: border-color 0.2s steps(3, end), box-shadow 0.2s steps(3, end) !important;
+}
+
+.mil-section[data-name="Blogs"] .mil-blog-post:hover,
+.mil-blog-post:hover {
+  border-color: #FF5722 !important;
+  box-shadow: 0 0 14px 2px rgba(255, 87, 34, 0.4) !important;
+}
+
+/* CRT Frame for blog listing page */
+.mil-crt-frame {
+  position: relative;
+  border: 3px solid #FF5722;
+  box-shadow:
+    0 0 0 6px #111111,
+    0 0 0 8px #FF5722,
+    0 0 30px 4px rgba(255, 87, 34, 0.35);
+  padding: 50px 30px 30px;
+  margin-top: 20px;
+}
+
+.mil-crt-frame::before {
+  content: '> TERMINAL v2.0 \25AE';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-family: 'VT323', monospace;
+  color: #FF5722;
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  background: #111111;
+  border-bottom: 1px solid #FF5722;
+  padding: 6px 16px;
+}
+
+/* ---- 18. PROJECTS PAGE — Data Blueprint Cards ---- */
+.mil-portfolio-item {
+  border: 2px solid #FF5722 !important;
+  box-shadow: 4px 4px 0 0 rgba(255, 87, 34, 0.25) !important;
+  background: #0d1117 !important;
+  transition: box-shadow 0.2s steps(3, end) !important;
+}
+
+.mil-portfolio-item:hover {
+  box-shadow: 0 0 20px 3px #FF5722 !important;
+}
+
+.mil-project-info {
+  background-image:
+    linear-gradient(rgba(255, 87, 34, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 87, 34, 0.04) 1px, transparent 1px) !important;
+  background-size: 20px 20px !important;
+}
+
+/* Filter buttons — retro arcade style */
+.mil-filter a {
+  font-family: 'Space Mono', monospace !important;
+  font-size: 11px !important;
+  border: 1px solid rgba(224, 224, 224, 0.3) !important;
+  color: #B0B0B0 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  transition: all 0.15s steps(3, end) !important;
+}
+
+.mil-filter a:hover,
+.mil-filter a.mil-current {
+  color: #FF5722 !important;
+  border-color: #FF5722 !important;
+  box-shadow: 0 0 10px 1px rgba(255, 87, 34, 0.4) !important;
+  text-shadow: 0 0 6px #FF5722 !important;
+}
+
+/* ---- 19. SOCIAL PANEL ---- */
+.mil-social-panel {
+  border: none !important;
+  border-top: none !important;
+  background: transparent !important;
+}
+.mil-social-panel::after {
+  display: none !important;
+  border: none !important;
+}
+
+.mil-social-panel ul li a {
+  font-family: 'Space Mono', monospace !important;
+  font-size: 11px !important;
+  color: #B0B0B0 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  transition: color 0.15s steps(3, end), text-shadow 0.15s steps(3, end) !important;
+}
+
+.mil-social-panel ul li a:hover {
+  color: #FF5722 !important;
+  text-shadow: 0 0 8px #FF5722 !important;
+}
+
+/* social link hover glow */
+
+/* ---- 20. FOOTER SIGNATURE ---- */
+.mil-footer {
+  border: none !important;
+  border-top: none !important;
+  background: transparent !important;
+}
+.mil-footer::before {
+  display: none !important;
+  border: none !important;
+}
+
+.mil-footer .mil-upper {
+  font-family: 'VT323', monospace !important;
+  font-size: 18px !important;
+  letter-spacing: 0.1em !important;
+  color: #B0B0B0 !important;
+}
+
+.mil-footer .mil-accent {
+  color: #FF5722 !important;
+  text-shadow: 0 0 8px rgba(255, 87, 34, 0.4) !important;
+}
+
+/* ---- 21. MODAL — dark retro style ---- */
+.mil-modal-content,
+.mil-modal {
+  background: #111111 !important;
+  border: 2px solid #FF5722 !important;
+  box-shadow: 0 0 30px rgba(255, 87, 34, 0.3) !important;
+}
+
+.mil-modal-content h2,
+.mil-modal-content h3 {
+  color: #FF5722 !important;
+  font-family: 'VT323', monospace !important;
+}
+
+.mil-modal-content p {
+  color: #B0B0B0 !important;
+  font-family: 'Space Mono', monospace !important;
+}
+
+.mil-modal-close {
+  color: #FF5722 !important;
+  border: 1px solid #FF5722 !important;
+  background: transparent !important;
+}
+
+.mil-modal-close:hover {
+  background: #FF5722 !important;
+  color: #111111 !important;
+}
+
+/* ---- 22. PAGE FADE-TO-BLACK TRANSITION ---- */
+@keyframes fade-out-black {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+body.mil-page-exit {
+  animation: fade-out-black 0.3s ease-out forwards;
+}
+
+/* ---- 23. SCROLLBAR — orange accent ---- */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: #FF5722; }
+::-webkit-scrollbar-track { background: #111111; }
+
+/* ---- 24. SELECTION HIGHLIGHT ---- */
+::selection {
+  background: #FF5722;
+  color: #111111;
+}
+
+/* ---- 25. SWIPER NAVIGATION ARROWS — retro style ---- */
+.mil-prev, .mil-next {
+  border: 1px solid rgba(224, 224, 224, 0.3) !important;
+  color: #E0E0E0 !important;
+  transition: all 0.15s steps(3, end) !important;
+}
+
+.mil-prev:hover, .mil-next:hover {
+  border-color: #FF5722 !important;
+  color: #FF5722 !important;
+  box-shadow: 0 0 12px 2px rgba(255, 87, 34, 0.5) !important;
+}
+
+/* ---- 26. CONTACT FORM ---- */
+input, textarea, select {
+  background: #1a1a1a !important;
+  color: #E0E0E0 !important;
+  border: 1px solid rgba(224, 224, 224, 0.2) !important;
+  font-family: 'Space Mono', monospace !important;
+}
+
+input:focus, textarea:focus {
+  border-color: #FF5722 !important;
+  box-shadow: 0 0 8px 1px rgba(255, 87, 34, 0.3) !important;
+  outline: none !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #555 !important;
+  font-family: 'Space Mono', monospace !important;
+}
+
+/* ---- 27. CALL TO ACTION SECTION ---- */
+.mil-call-to-action {
+  background: #0d1117 !important;
+  border: 1px solid rgba(255, 87, 34, 0.2) !important;
+}
+
+/* ---- 28. SECTION HEADERS — terminal prefix ---- */
+.mil-upper.mil-mb-30 {
+  font-family: 'Space Mono', monospace !important;
+  font-size: 12px !important;
+  letter-spacing: 0.15em !important;
+  color: #7CB3FF !important;
+}
+
+/* ---- 29. RESPONSIVE STACKING ---- */
+@media screen and (max-width: 1200px) {
+  .mil-retro-hero {
+    flex-direction: column !important;
+    height: auto !important;
+  }
+
+  .mil-hero-image-panel,
+  .mil-hero-text-panel {
+    width: 100% !important;
+  }
+
+  .mil-hero-image-panel {
+    height: 60vh !important;
+    border-right: none !important;
+    border-bottom: 2px solid #FF5722 !important;
+  }
+
+  .mil-hero-text-panel {
+    height: auto !important;
+    padding: 60px 30px !important;
+  }
+
+  .mil-hero-watermark {
+    font-size: clamp(20px, 5vw, 40px) !important;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .mil-hero-text-panel {
+    padding: 40px 20px !important;
+  }
+
+  .mil-retro-hero h1 {
+    font-size: 52px !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  h1 { font-size: 52px !important; }
+  h2 { font-size: 40px !important; }
+  h3 { font-size: 32px !important; }
+  body { font-size: 14px !important; }
+
+  .mil-hero-watermark {
+    display: none !important;
+  }
+
+  .mil-hero-image-panel {
+    height: 45vh !important;
+  }
+}
+
+/* ---- 30. ACCENT SPANS ---- */
+.mil-accent {
+  color: #FF5722 !important;
+}
+
+/* ---- 31. LINK STYLES ---- */
+a {
+  transition: color 0.15s steps(3, end), text-shadow 0.15s steps(3, end) !important;
+}
+
+/* ---- 32. TESTIMONIALS / REVIEWS ---- */
+.mil-review-card {
+  border: 1px solid rgba(255, 87, 34, 0.25) !important;
+  background: #0d1117 !important;
+}
+
+.mil-review-card:hover {
+  border-color: #FF5722 !important;
+  box-shadow: 0 0 12px 2px rgba(255, 87, 34, 0.3) !important;
+}
+
+/* ---- 33. TIMELINE / TIMELINE NAV ---- */
+.mil-timeline-nav {
+  border-top: none !important;
+}
+
+/* ---- 34. TEXT SHADOW for headings — pixel offset effect ---- */
+h1, h2, h3, h4 {
+  text-shadow: 3px 3px 0 rgba(255, 87, 34, 0.15) !important;
+  font-family: 'VT323', monospace !important;
+}
+
+h1 { font-size: 80px !important; }
+h2 { font-size: 58px !important; }
+h3 { font-size: 40px !important; }
+h4 { font-size: 22px !important; }
+
+/* ---- 35. SIGNATURE ---- */
+.mil-signature {
+  filter: invert(1) sepia(1) saturate(2) hue-rotate(160deg) !important;
+  opacity: 0.7 !important;
+}
+
+/* ---- 36. SWIPER PAGINATION BULLETS ---- */
+.swiper-pagination-bullet {
+  background: rgba(255, 87, 34, 0.5) !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #FF5722 !important;
+}
+
+/* ---- 37. TOP PANEL DARK OVERRIDE on home section ---- */
+.mil-top-panel.mil-home-section {
+  background: transparent !important;
+  border-bottom-color: transparent !important;
+}
+
+.mil-top-panel.mil-home-section nav ul li a {
+  color: #E0E0E0 !important;
+}
+
+/* ---- 38. TYPING CURSOR — orange glow ---- */
+#typing-effect .cursor {
+  background-color: #FF5722 !important;
+  box-shadow: 0 0 6px 1px #FF5722 !important;
+}
+
+/* ---- 39. FILTER ACTIVE INDICATOR — orange ---- */
+.mil-filter ul li a.mil-current::after {
+  background-color: #FF5722 !important;
+}
+
+/* ---- 40. MOBILE NAV MENU — dark bg ---- */
+@media screen and (max-width: 1200px) {
+  .mil-top-panel nav {
+    background: #111111 !important;
+    border: 1px solid rgba(255, 87, 34, 0.3) !important;
+  }
+
+  .mil-top-panel nav ul li a {
+    color: #E0E0E0 !important;
+  }
+}
+
+/* ---- 41. BLOG CARD IMAGES — pixel art treatment ---- */
+.mil-blog-card .mil-cover img {
+  filter: contrast(1.05) saturate(0.7) brightness(0.85) !important;
+  transition: filter 0.2s steps(3, end) !important;
+}
+
+.mil-blog-card:hover .mil-cover img {
+  filter: contrast(1.1) saturate(0.85) brightness(0.95) !important;
+}
+
+/* ---- 42. DATE BADGE — terminal style ---- */
+.mil-date {
+  background: #111111 !important;
+  color: #FF5722 !important;
+  border: 1px solid #FF5722 !important;
+  font-family: 'Space Mono', monospace !important;
+  font-size: 10px !important;
+  letter-spacing: 0.1em !important;
+}
+
+/* ---- 43. SECTION BACKGROUND — deep dark ---- */
+.mil-section,
+.mil-page {
+  background: #111111;
+}
+
+/* ---- 44. SKILL SECTION LIST ITEMS ---- */
+.mil-icon-list li {
+  border-bottom: 1px solid rgba(255, 87, 34, 0.15) !important;
+  padding: 8px 0 !important;
+  font-family: 'Space Mono', monospace !important;
+  font-size: 13px !important;
+}
+
+/* ---- 45. HEADINGS font ensure (scoped to h-tags only, not all .mil-up) ---- */
+h1.mil-up, h2.mil-up, h3.mil-up, h4.mil-up,
+.mil-banner-text h1 {
+  font-family: 'VT323', monospace !important;
+  color: #FF5722 !important;
+}
+
+/* ---- 46. ABOUT SECTION NAME ---- */
+.mil-section[data-name="About"] h2 {
+  color: #FF5722 !important;
+  font-family: 'VT323', monospace !important;
+}
+
+/* ---- 47. PAGINATION NUMBERS ---- */
+.mil-pagination-panel .mil-pagination-numbers li a {
+  font-family: 'Space Mono', monospace !important;
+  color: #B0B0B0 !important;
+  border: 2px solid rgba(224, 224, 224, 0.25) !important;
+  background-color: transparent !important;
+  box-shadow: 4px 4px 0 0 rgba(255, 87, 34, 0.15) !important;
+  transition: all 0.15s steps(3, end) !important;
+}
+
+.mil-pagination-panel .mil-pagination-numbers li a:hover {
+  color: #FF5722 !important;
+  border-color: #FF5722 !important;
+  box-shadow: 0 0 10px 2px rgba(255, 87, 34, 0.5) !important;
+  background-color: transparent !important;
+}
+
+/* FIX: "01" active state — no filled orange block, just glowing border */
+.mil-pagination-panel .mil-pagination-numbers li.mil-active a {
+  background-color: transparent !important;
+  color: #FF5722 !important;
+  border: 2px solid #FF5722 !important;
+  box-shadow: 0 0 12px 3px rgba(255, 87, 34, 0.6), 4px 4px 0 0 rgba(255, 87, 34, 0.3) !important;
+}
+
+/* ---- 48. CIRCULAR SLIDER — dark nav arrow boxes ---- */
+.circular-slider .wrapper .controls__left .icon-wrapper,
+.circular-slider .wrapper .controls__right .icon-wrapper,
+.circular-slider .wrapper .controls__autoplay .icon-wrapper {
+  background: rgba(17, 17, 17, 0.88) !important;
+  border: 1px solid rgba(255, 87, 34, 0.45) !important;
+  color: #B0B0B0 !important;
+  box-shadow: none !important;
+}
+
+.circular-slider .wrapper .controls__left:hover .icon-wrapper,
+.circular-slider .wrapper .controls__right:hover .icon-wrapper,
+.circular-slider .wrapper .controls__autoplay:hover .icon-wrapper {
+  background: rgba(17, 17, 17, 0.96) !important;
+  border-color: #FF5722 !important;
+  color: #FF5722 !important;
+  box-shadow: 0 0 12px rgba(255, 87, 34, 0.45) !important;
+  font-size: inherit !important;
+  transform: none !important;
+}
+
+/* ---- 49. SLIDER ADJACENT ITEMS — subtle orange border instead of grey ---- */
+.circular-slider .wrapper .slides-holder__item {
+  border-color: rgba(255, 87, 34, 0.25) !important;
+}
+
+/* ---- 50. ICON BOX BG-ITEMS — reduce visual noise ---- */
+.mil-icon-box .mil-bg-item {
+  opacity: 0.3 !important;
+}
+
+/* ---- 51. PAGINATION NUMBERS BORDER FIX (style.css missed word-order variant) ---- */
+.mil-pagination-panel .mil-pagination-numbers li a {
+  border: 2px solid rgba(224, 224, 224, 0.25) !important;
+}

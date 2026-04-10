@@ -639,3 +639,41 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Experience terminal card stack slider
+(function() {
+    var expEl = document.querySelector('.mil-exp-slider');
+    if (!expEl) return;
+
+    var expSwiper = new Swiper('.mil-exp-slider', {
+        effect: 'cards',
+        grabCursor: true,
+        centeredSlides: true,
+        loop: false,
+        speed: 600,
+        autoplay: {
+            delay: 4000,
+            disableOnInteraction: true,
+        },
+        navigation: {
+            nextEl: '.mil-exp-next',
+            prevEl: '.mil-exp-prev',
+        },
+        pagination: {
+            el: '.mil-exp-fraction',
+            type: 'fraction',
+        },
+    });
+})();
+
+// Retro page fade-to-black transition
+document.querySelectorAll('a[href]').forEach(function(link) {
+    var href = link.getAttribute('href');
+    if (href && !href.startsWith('#') && !href.startsWith('http') && !href.startsWith('mailto') && !link.hasAttribute('download') && link.target !== '_blank') {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.body.classList.add('mil-page-exit');
+            setTimeout(function() { window.location.href = href; }, 300);
+        });
+    }
+});

@@ -21,7 +21,13 @@
 
     <!-- treto css -->
     <link rel="stylesheet" href="css/style.css" type="text/css" media="all">
-    
+
+    <!-- Retro Dark Pixel Art Theme -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+    <link rel="stylesheet" href="css/retro-dark.css" type="text/css" media="all">
+
     <!-- Favicon -->
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -91,34 +97,31 @@
     <div class="mil-onepage">
 
         <!-- banner -->
-        <div class="mil-section mil-banner" data-name="Home">
-            <div class="container-full">
-                <div class="row no-gutters align-items-center justify-content-between flex-sm-row-reverse">
-                    <div class="col-xl-7">
+        <div class="mil-section mil-banner mil-retro-hero" data-name="Home">
 
-                        <div class="mil-p-120-120">
-                            <div class="mil-banner-text" data-swiper-parallax-y="-600" data-swiper-parallax-duration="600">
-                                <div class="mil-bg-title-boxed" style="top: 0; left: -82%;"></div>
-                                <p class="mil-upper mil-mb-30">Software Engineer <span class="mil-accent">and</span> Full-Stack Developer</p>
-                                <h1 id="typing-effect" class="mil-up mil-mb-40"><span class="v-char">V</span><span class="name-text">edant Misra</span></h1>
-                                <div class="mil-short mil-left-offset">
-                                    <p class="mil-mb-30">I am a passionate and results-driven Software Engineer with a strong background in full-stack development. I thrive on solving complex problems and building innovative solutions.</p>
-                                    <div class="mil-buttons-frame">
-                                        <a href="projects.html" class="mil-button mil-type-2">Projects</a>
-                                        <a href="Resume.pdf" class="mil-button" download>Download CV</a>
-                                    </div>
-                                </div>
-                            </div>
+            <!-- Left: pixel image panel -->
+            <div class="mil-hero-image-panel">
+                <img src="img/faces/vedant.jpg" alt="Vedant Misra" class="mil-banner-image">
+                <div class="mil-hero-image-overlay"></div>
+                <div class="mil-hero-watermark">Vedant Misra</div>
+            </div>
+
+            <!-- Right: text panel -->
+            <div class="mil-hero-text-panel">
+                <div class="mil-banner-text">
+                    <div class="mil-bg-title-boxed" style="top: 0; left: -82%;"></div>
+                    <p class="mil-upper mil-mb-30">Software Engineer <span class="mil-accent">and</span> Full-Stack Developer</p>
+                    <h1 id="typing-effect" class="mil-up mil-mb-40"><span class="v-char">V</span><span class="name-text">edant Misra</span></h1>
+                    <div class="mil-short">
+                        <p class="mil-mb-30">I am a passionate and results-driven Software Engineer with a strong background in full-stack development. I thrive on solving complex problems and building innovative solutions.</p>
+                        <div class="mil-buttons-frame">
+                            <a href="projects.html" class="mil-button mil-type-2">Projects</a>
+                            <a href="Resume.pdf" class="mil-button" download>Download CV</a>
                         </div>
-
-                    </div>
-                    <div class="col-xl-5">
-
-                        <img src="img/faces/vedant.jpg" alt="Vedant Misra" class="mil-banner-image" style="object-fit: cover; object-position: center 40%; filter: sepia(0.3) saturate(1.4) hue-rotate(-20deg);">
-
                     </div>
                 </div>
             </div>
+
         </div>
         <!-- banner end -->
 
@@ -365,105 +368,190 @@
         </div>
         <!-- education end -->
         
-        <!-- experience (technologies) -->
-        <div class="mil-section mil-slider-section" data-name="Experience">
-            
-            <!-- Background decorative elements -->
-            <div class="mil-slider-bg-item mil-slider-bg-item-1"></div>
-            <div class="mil-slider-bg-item mil-slider-bg-item-2"></div>
-            <div class="mil-slider-bg-item mil-slider-bg-item-3"></div>
-            
-            <!-- Section title -->
-            <div class="mil-slider-section-title">
-                <p class="mil-upper">My professional <span class="mil-accent">journey</span></p>
-                <h2 class="mil-up">Experience</h2>
-            </div>
-            
-            <!-- Circular slider container -->
-            <div class="mil-slider-container">
-                <!-- Dynamic watermark background -->
-                <div class="watermark-background">
-                    <img src="img/tech/Kenmark.jpeg" alt="Watermark" class="watermark-img watermark-active">
-                    <img src="img/tech/Experitos.png" alt="Watermark" class="watermark-img">
-                    <img src="img/tech/EY.png" alt="Watermark" class="watermark-img">
-                    <img src="img/tech/SAS.png" alt="Watermark" class="watermark-img">
-                    <img src="img/tech/ZS_Associates.svg" alt="Watermark" class="watermark-img">
-                    <img src="img/tech/RXRX.png" alt="Watermark" class="watermark-img">
-                </div>
-                <div class="circular-slider mil-portfolio-slider">
-                    <div class="wrapper">
-                        <div class="controls">
-                            <div class="controls__left">
-                                <div class="icon-wrapper"><i class="fas fa-chevron-left"></i></div>
-                            </div>
-                            <div class="controls__right">
-                                <div class="icon-wrapper"><i class="fas fa-chevron-right"></i></div>
-                            </div>
-                            <div class="controls__autoplay controls__autoplay_running">
-                                <div class="icon-wrapper">
-                                    <div class="pause"><i class="fas fa-pause"></i></div>
-                                    <div class="run"><i class="fas fa-play"></i></div>
+        <!-- experience -->
+        <div class="mil-section mil-exp-section mil-op-space-90" data-name="Experience">
+
+            <div class="container">
+                <p class="mil-upper mil-mb-30">My professional <span class="mil-accent">journey</span></p>
+                <h2 class="mil-up mil-mb-60">Experience</h2>
+
+                <div class="swiper-container mil-exp-slider">
+                    <div class="swiper-wrapper">
+
+                        <!-- Card 1: Kenmark -->
+                        <div class="swiper-slide">
+                            <div class="exp-card">
+                                <div class="exp-card__bar">
+                                    <div class="exp-card__dots">
+                                        <span class="exp-dot exp-dot--r"></span>
+                                        <span class="exp-dot exp-dot--y"></span>
+                                        <span class="exp-dot exp-dot--g"></span>
+                                    </div>
+                                    <div class="exp-card__bar-label">KENMARK ITAN SOLUTIONS &mdash; TERMINAL</div>
+                                </div>
+                                <div class="exp-card__body">
+                                    <div class="exp-card__logo-wrap">
+                                        <img src="img/tech/Kenmark.jpeg" alt="Kenmark ITAN Solutions" class="exp-card__logo">
+                                    </div>
+                                    <div class="exp-card__info">
+                                        <div class="exp-card__prompt">$ cat experience.log</div>
+                                        <div class="exp-card__role">JR. WEB DEVELOPER</div>
+                                        <div class="exp-card__company">KENMARK ITAN SOLUTIONS</div>
+                                        <div class="exp-card__years">&gt; 2020 &mdash; 2021</div>
+                                        <p class="exp-card__desc">Engineered responsive web interfaces and RESTful APIs for client-facing applications and internal tooling solutions.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="slides-holder">
-                            <div class="slides-holder__item">
-                                <img src="img/tech/Kenmark.jpeg" alt="Penn State University">
-                            </div>
-                            <div class="slides-holder__item">
-                                <img src="img/tech/Experitos.png" alt="The Experitos Studio">
-                            </div>
-                            <div class="slides-holder__item">
-                                <img src="img/tech/EY.png" alt="Ernst & Young">
-                            </div>
-                            <div class="slides-holder__item">
-                                <img src="img/tech/SAS.png" alt="SAS Institute">
-                            </div>
-                            <div class="slides-holder__item">
-                                <img src="img/tech/ZS_Associates.svg" alt="ZS Associates">
-                            </div>
-                            <div class="slides-holder__item slides-holder__item_active">
-                                <img src="img/tech/RXRX.png" alt="Recursion Pharmaceuticals">
+
+                        <!-- Card 2: Experitos -->
+                        <div class="swiper-slide">
+                            <div class="exp-card">
+                                <div class="exp-card__bar">
+                                    <div class="exp-card__dots">
+                                        <span class="exp-dot exp-dot--r"></span>
+                                        <span class="exp-dot exp-dot--y"></span>
+                                        <span class="exp-dot exp-dot--g"></span>
+                                    </div>
+                                    <div class="exp-card__bar-label">THE EXPERITOS STUDIO &mdash; TERMINAL</div>
+                                </div>
+                                <div class="exp-card__body">
+                                    <div class="exp-card__logo-wrap">
+                                        <img src="img/tech/Experitos.png" alt="The Experitos Studio" class="exp-card__logo">
+                                    </div>
+                                    <div class="exp-card__info">
+                                        <div class="exp-card__prompt">$ cat experience.log</div>
+                                        <div class="exp-card__role">FULL STACK DEVELOPER</div>
+                                        <div class="exp-card__company">THE EXPERITOS STUDIO</div>
+                                        <div class="exp-card__years">&gt; 2021</div>
+                                        <p class="exp-card__desc">Developed full-stack product features using React and Node.js across multiple digital product lines and client deployments.</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="descriptions">
-                            <div class="descriptions__item">
-                                <div class="year-range">2020 - 2021</div>
-                                <p class="role-title">Jr. Web Developer</p>
-                                <h1>KENMARK ITAN SOLUTIONS</h1>
+
+                        <!-- Card 3: EY -->
+                        <div class="swiper-slide">
+                            <div class="exp-card">
+                                <div class="exp-card__bar">
+                                    <div class="exp-card__dots">
+                                        <span class="exp-dot exp-dot--r"></span>
+                                        <span class="exp-dot exp-dot--y"></span>
+                                        <span class="exp-dot exp-dot--g"></span>
+                                    </div>
+                                    <div class="exp-card__bar-label">ERNST &amp; YOUNG &mdash; TERMINAL</div>
+                                </div>
+                                <div class="exp-card__body">
+                                    <div class="exp-card__logo-wrap">
+                                        <img src="img/tech/EY.png" alt="Ernst and Young" class="exp-card__logo">
+                                    </div>
+                                    <div class="exp-card__info">
+                                        <div class="exp-card__prompt">$ cat experience.log</div>
+                                        <div class="exp-card__role">SOFTWARE DEVELOPMENT INTERN</div>
+                                        <div class="exp-card__company">ERNST &amp; YOUNG</div>
+                                        <div class="exp-card__years">&gt; 2022</div>
+                                        <p class="exp-card__desc">Contributed to enterprise software modernization and data analytics platforms serving Fortune 500 clients at scale.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="descriptions__item">
-                                <div class="year-range">2021</div>
-                                <p class="role-title">Full Stack Developer</p>
-                                <h1>THE EXPERITOS STUDIO</h1>
+                        </div>
+
+                        <!-- Card 4: SAS -->
+                        <div class="swiper-slide">
+                            <div class="exp-card">
+                                <div class="exp-card__bar">
+                                    <div class="exp-card__dots">
+                                        <span class="exp-dot exp-dot--r"></span>
+                                        <span class="exp-dot exp-dot--y"></span>
+                                        <span class="exp-dot exp-dot--g"></span>
+                                    </div>
+                                    <div class="exp-card__bar-label">SAS INSTITUTE &mdash; TERMINAL</div>
+                                </div>
+                                <div class="exp-card__body">
+                                    <div class="exp-card__logo-wrap">
+                                        <img src="img/tech/SAS.png" alt="SAS Institute" class="exp-card__logo">
+                                    </div>
+                                    <div class="exp-card__info">
+                                        <div class="exp-card__prompt">$ cat experience.log</div>
+                                        <div class="exp-card__role">DATA SCIENCE INTERN</div>
+                                        <div class="exp-card__company">SAS INSTITUTE</div>
+                                        <div class="exp-card__years">&gt; 2022 &mdash; 2023</div>
+                                        <p class="exp-card__desc">Built ML pipelines and interactive data visualizations using Python, SAS Viya, and Tableau for analytics products.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="descriptions__item">
-                                <div class="year-range">2022</div>
-                                <p class="role-title">Software Development Intern</p>
-                                <h1>ERNST & YOUNG</h1>
+                        </div>
+
+                        <!-- Card 5: ZS -->
+                        <div class="swiper-slide">
+                            <div class="exp-card">
+                                <div class="exp-card__bar">
+                                    <div class="exp-card__dots">
+                                        <span class="exp-dot exp-dot--r"></span>
+                                        <span class="exp-dot exp-dot--y"></span>
+                                        <span class="exp-dot exp-dot--g"></span>
+                                    </div>
+                                    <div class="exp-card__bar-label">ZS ASSOCIATES &mdash; TERMINAL</div>
+                                </div>
+                                <div class="exp-card__body">
+                                    <div class="exp-card__logo-wrap">
+                                        <img src="img/tech/ZS_Associates.svg" alt="ZS Associates" class="exp-card__logo">
+                                    </div>
+                                    <div class="exp-card__info">
+                                        <div class="exp-card__prompt">$ cat experience.log</div>
+                                        <div class="exp-card__role">BUSINESS TECHNOLOGY SOLUTIONS ASSOCIATE</div>
+                                        <div class="exp-card__company">ZS ASSOCIATES</div>
+                                        <div class="exp-card__years">&gt; 2023 &mdash; 2024</div>
+                                        <p class="exp-card__desc">Automated BI workflows and built analytics dashboards supporting life sciences consulting engagements globally.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="descriptions__item">
-                                <div class="year-range">2022 - 2023</div>
-                                <p class="role-title">Data Science Intern</p>
-                                <h1>SAS INSTITUTE</h1>
+                        </div>
+
+                        <!-- Card 6: Recursion -->
+                        <div class="swiper-slide">
+                            <div class="exp-card">
+                                <div class="exp-card__bar">
+                                    <div class="exp-card__dots">
+                                        <span class="exp-dot exp-dot--r"></span>
+                                        <span class="exp-dot exp-dot--y"></span>
+                                        <span class="exp-dot exp-dot--g"></span>
+                                    </div>
+                                    <div class="exp-card__bar-label">RECURSION PHARMACEUTICALS &mdash; TERMINAL</div>
+                                </div>
+                                <div class="exp-card__body">
+                                    <div class="exp-card__logo-wrap">
+                                        <img src="img/tech/RXRX.png" alt="Recursion Pharmaceuticals" class="exp-card__logo">
+                                    </div>
+                                    <div class="exp-card__info">
+                                        <div class="exp-card__prompt">$ cat experience.log</div>
+                                        <div class="exp-card__role">SOFTWARE ENGINEERING INTERN</div>
+                                        <div class="exp-card__company">RECURSION PHARMACEUTICALS</div>
+                                        <div class="exp-card__years">&gt; 2025</div>
+                                        <p class="exp-card__desc">Engineering bioinformatics software and tooling to support AI-accelerated drug discovery pipelines at scale.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="descriptions__item">
-                                <div class="year-range">2023 - 2024</div>
-                                <p class="role-title">Business Technology Solutions Associate</p>
-                                <h1>ZS ASSOCIATES</h1>
-                            </div>
-                            <div class="descriptions__item descriptions__item_visible">
-                                <div class="year-range">2025</div>
-                                <p class="role-title">Software Engineering Intern</p>
-                                <h1>RECURSION PHARMACEUTICALS</h1>
-                            </div>
+                        </div>
+
+                    </div><!-- swiper-wrapper end -->
+
+                    <!-- Navigation -->
+                    <div class="mil-exp-nav">
+                        <div class="mil-exp-prev mil-prev">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </div>
+                        <div class="mil-exp-fraction"></div>
+                        <div class="mil-exp-next mil-next">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                         </div>
                     </div>
-                </div>
+
+                </div><!-- swiper-container end -->
             </div>
-            
+
         </div>
-        <!-- experience (technologies) end -->
+        <!-- experience end -->
         <!-- blog -->
         <div class="mil-section mil-op-space-90" data-name="Blogs">
             <div class="container">
